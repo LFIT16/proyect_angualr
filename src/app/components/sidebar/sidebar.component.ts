@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 
 declare const $: any;
 declare interface RouteInfo {
@@ -26,7 +27,11 @@ export const ROUTES: RouteInfo[] = [
 export class SidebarComponent implements OnInit {
   menuItems: any[];
 
-  constructor() { }
+  constructor(location: Location) {
+    location.subscribe((val) => {
+      this.menuItems = ROUTES.filter(menuItem => menuItem);
+    });
+  }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
