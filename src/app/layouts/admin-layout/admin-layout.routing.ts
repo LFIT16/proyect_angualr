@@ -9,6 +9,7 @@ import { MapsComponent } from '../../pages/maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 
+ 
 export const AdminLayoutRoutes: Routes = [
     // {
     //   path: '',
@@ -60,4 +61,13 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'maps',           component: MapsComponent },
     { path: 'notifications',  component: NotificationsComponent },
     { path: 'upgrade',        component: UpgradeComponent },
+    {
+        path: 'users',
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('../../pages/user/users.module').then(m => m.UsersModule)
+            }
+        ]
+    }
 ];
