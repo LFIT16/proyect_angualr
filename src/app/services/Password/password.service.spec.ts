@@ -1,7 +1,16 @@
-import { Password } from './password.service';
+import { TestBed } from '@angular/core/testing';
 
-describe('Password', () => {
-  it('should create an instance', () => {
-    expect(new Password()).toBeTruthy();
+import { PasswordService } from './password.service';
+
+describe('UserService', () => {
+  let service: PasswordService;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({});
+    service = TestBed.inject(PasswordService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
   });
 });

@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-danger">
-            <h4 class="card-title">Roles</h4>
+            <h4 class="card-title">Passwords</h4>
              <button class="btn btn-success" (click)="create()">Crear</button>
           </div>
           <div class="card-body">
@@ -13,7 +13,7 @@
                 <thead class="text-primary">
                   <td>Id</td>
                   <td>Usuario</td>
-                  <td>Rol</td>
+                  <td>Contenido</td>
                   <td>Fecha de inicio</td>
                   <td>Fecha de fin</td>
                   <td>Fecha de creación</td>
@@ -21,19 +21,20 @@
                   <td>Acciones</td>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let userRole of usersRoles">
-                    <td>{{ userRole.id  | slice:0:8 }}</td>
-                    <td>{{ getUserName(userRole.user_id) }}</td>
-                    <td>{{ getRoleName(userRole.role_id) }}</td>
-                    <td>{{ userRole.startAt | date: 'short' }}</td>
-                    <td>{{ userRole.endAt | date: 'short' }}</td>
-                    <td>{{ userRole.created_at | date: 'short' }}</td>
-                    <td>{{ userRole.updated_at | date: 'short' }}</td>
+                  <tr *ngFor="let password of passwords">
+                    <td>{{ password.id }}</td>
+                    <td>{{ getUserName(password.user_id) }}</td>
+                    <td>{{ password.content | slice: 0:8}}</td>
+                    <td>{{ password.startAt | date: 'short' }}</td>
+                    <td>{{ password.endAt | date: 'short' }}</td>
+                    <td>{{ password.created_at | date: 'short' }}</td>
+                    <td>{{ password.updated_at | date: 'short' }}</td>
                     <td>
-                      <button class="btn btn-warning" (click)="view(userRole.id)">ver</button>
-                      <button class="btn btn-primary" (click)="edit(userRole.id)">Editar</button>
+                      <button class="btn btn-warning" (click)="view(password.id)">ver</button>
+                      <button class="btn btn-primary" (click)="edit(password.id)">Editar</button>
                       <br>
-                      <button class="btn btn-danger" (click)="delete(userRole.id)">Eliminar</button>
+                      <button class="btn btn-danger" (click)="delete(password.id)">Eliminar</button>
+                     
                     </td>
                   </tr>
                 </tbody>

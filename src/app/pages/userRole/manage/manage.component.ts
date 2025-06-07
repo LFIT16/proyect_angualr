@@ -70,8 +70,8 @@ export class ManageComponent implements OnInit {
       id: ['', []], // Cambiado a string vacío por defecto
       user_id: [null, [Validators.required]], // null por defecto
       role_id: [null, [Validators.required]], // null por defecto
-      startAt: [null, []],
-      endAt: [null, []],
+      startAt: [null, [Validators.required]],
+      endAt: [null, [Validators.required]],
     })
   }
 
@@ -88,8 +88,8 @@ export class ManageComponent implements OnInit {
           id: this.userRole.id,
           user_id: this.userRole.user_id,
           role_id: this.userRole.role_id,
-          startAd: this.userRole.startAt,
-          endAd: this.userRole.endAt,
+          startAt: this.userRole.startAt ? this.formatForInput(this.userRole.startAt) : '',
+          endAt: this.userRole.endAt ? this.formatForInput(this.userRole.endAt) : '',
           created_at: this.userRole.created_at,
           updated_at: this.userRole.updated_at,
         });
@@ -183,6 +183,14 @@ export class ManageComponent implements OnInit {
       return `${date} ${time}:00`;
     }
     return `${date} ${time}`;
+  }
+
+  // Formatea fecha a 'YYYY-MM-DDTHH:mm' para el input
+  formatForInput(date: string | Date): string {
+    if (!date) return '';
+    const d = new Date(date);
+    const pad = (n: number) => n < 10 ? '0' + n : n;
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
 
 }
