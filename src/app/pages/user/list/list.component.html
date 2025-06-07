@@ -17,6 +17,8 @@
                             <td>Nombre</td>
                             <td>Correo</td>
                             <td>Contraseña</td>
+                            <td>Fecha de creación</td>
+                            <td>Fecha de actualización</td>
                             <td>Acciones</td>
                         </tr>
                         <tr *ngFor="let user of users">
@@ -24,6 +26,8 @@
                             <td>{{user.name}}</td>
                             <td>{{user.email}}</td>
                             <td>{{user.password}}</td>
+                            <td>{{user.created_at | date: 'short' }}</td>
+                            <td>{{user.updated_at | date: 'short' }}</td>
                             <td>
                                 <button class="btn btn-warning" (click)="view(user.id)">Ver</button>
                                 <button class="btn btn-primary" (click)="edit(user.id)">Editar</button>
