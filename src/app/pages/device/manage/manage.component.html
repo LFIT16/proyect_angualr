@@ -1,0 +1,67 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">
+              {{ mode === 1 ? 'Ver' : mode === 2 ? 'Crear' : 'Actualizar' }} Dispositivo
+            </h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="theFormGroup">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" formControlName="name" [readonly]="mode === 1">
+                    <div *ngIf="trySend && getTheFormGroup.name.errors" class="text-danger">
+                      <div *ngIf="getTheFormGroup.name.errors?.['required']">El nombre es requerido</div>
+                      <div *ngIf="getTheFormGroup.name.errors?.['minlength']">Mínimo 2 caracteres</div>
+                      <div *ngIf="getTheFormGroup.name.errors?.['maxlength']">Máximo 50 caracteres</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Dirección IP</label>
+                    <input type="text" class="form-control" formControlName="ip" [readonly]="mode === 1">
+                    <div *ngIf="trySend && getTheFormGroup.ip.errors" class="text-danger">
+                      <div *ngIf="getTheFormGroup.ip.errors?.['required']">La IP es requerida</div>
+                      <div *ngIf="getTheFormGroup.ip.errors?.['pattern']">Formato de IP inválido</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Sistema Operativo</label>
+                    <input type="text" class="form-control" formControlName="operating_system" [readonly]="mode === 1">
+                    <div *ngIf="trySend && getTheFormGroup.operating_system.errors" class="text-danger">
+                      <div *ngIf="getTheFormGroup.operating_system.errors?.['required']">El sistema operativo es requerido</div>
+                      <div *ngIf="getTheFormGroup.operating_system.errors?.['minlength']">Mínimo 2 caracteres</div>
+                      <div *ngIf="getTheFormGroup.operating_system.errors?.['maxlength']">Máximo 50 caracteres</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <button class="btn btn-primary" (click)="back()">Regresar</button>
+                  <button *ngIf="mode === 2" class="btn btn-success" (click)="create()">Crear</button>
+                  <button *ngIf="mode === 3" class="btn btn-warning" (click)="update()">Actualizar</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

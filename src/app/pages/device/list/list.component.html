@@ -1,0 +1,47 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Dispositivos</h4>
+            <button class="btn btn-success" (click)="create()">Crear</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="text-primary">
+                  <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>IP</th>
+                    <th>Sistema Operativo</th>
+                    <th>Fecha de creación</th>
+                    <th>Fecha de actualización</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let device of devices">
+                    <td>{{ device.id }}</td>
+                    <td>{{ device.name }}</td>
+                    <td>{{ device.ip }}</td>
+                    <td>{{ device.operating_system }}</td>
+                    <td>{{ device.created_at | date: 'short' }}</td>
+                    <td>{{ device.updated_at | date: 'short' }}</td>
+                    <td>
+                      <button class="btn btn-warning btn-sm" (click)="view(device.id)">Ver</button>
+                      <button class="btn btn-primary btn-sm mx-1" (click)="edit(device.id)">Editar</button>
+                      <button class="btn btn-danger btn-sm" (click)="delete(device.id)">Eliminar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p *ngIf="devices.length === 0">No hay dispositivos registrados.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

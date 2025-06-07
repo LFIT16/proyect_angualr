@@ -79,6 +79,16 @@ export const AdminLayoutRoutes: Routes = [
             }
         ]
     },
+    {
+    path: 'device',
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('../../pages/device/devices.module').then(m => m.DeviceModule)
+      }
+    ]
+  },
 
 
 ];
