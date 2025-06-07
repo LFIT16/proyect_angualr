@@ -24,8 +24,7 @@
                             <div class="row">
                                 <div class="col-3">Nombre</div>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" 
-                                        [readonly]="mode==1" formControlName="name">
+                                    <input type="text" class="form-control" formControlName="name">
                                         
                                     <div
                                         *ngIf="getTheFormGroup.name.errors && (getTheFormGroup.name.dirty || getTheFormGroup.name.touched || trySend)">
@@ -38,34 +37,19 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-3">Correo</div>
+                                <div class="col-3">Descripción</div>
                                 <div class="col-9">
-                                    <input type="email" class="form-control" 
-                                        [readonly]="mode==1" formControlName="email">
-
-                                    <div *ngIf="getTheFormGroup.email.errors && (getTheFormGroup.email.dirty || getTheFormGroup.email.touched || trySend)">
-                                        <strong *ngIf="getTheFormGroup.email.errors.required"
+                                    <input type="text" class="form-control" formControlName="description">
+                                    
+                                    <div *ngIf="getTheFormGroup.description.errors && (getTheFormGroup.description.dirty || getTheFormGroup.description.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.description.errors.required"
                                             class="msnError">Requerido</strong>
-                                        <strong *ngIf="getTheFormGroup.email.errors.email"
+                                        <strong *ngIf="getTheFormGroup.description.errors.description"
                                             class="msnError">Inválido</strong>
                                     </div>
                                 </div>
                             </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-3">Contraseña</div>
-                                <div class="col-9">
-                                    <input type="password" class="form-control" 
-                                        [readonly]="mode==1" formControlName="password">
-
-                                    <div *ngIf="getTheFormGroup.password.errors && (getTheFormGroup.password.dirty || getTheFormGroup.password.touched || trySend)">
-                                        <strong *ngIf="getTheFormGroup.password.errors.required"
-                                            class="msnError">Requerido</strong>
-                                        <strong *ngIf="getTheFormGroup.password.errors.minlength"
-                                            class="msnError" >Inválido</strong>
-                                    </div>
-                                </div>
-                            </div>
+                            
                             <br>
                             <div class="row">
                                 <div class="col-3"></div>

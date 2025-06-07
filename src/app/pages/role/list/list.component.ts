@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Role } from '../../../models/Roles/role.model';
+import { RoleService } from '../../../services/Role/role.service';
 import Swal from 'sweetalert2';
-import { User } from '../../../models/Users/user.model';
-import { UserService } from '../../../services/User/user.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  users: User[] = [];
-  constructor(private usersService:UserService,
+  roles: Role[] = [];
+  constructor(private rolesService:RoleService,
     private router:Router
   ) { }
 
@@ -20,23 +19,23 @@ export class ListComponent implements OnInit {
   }
 
   list(){
-    this.usersService.list().subscribe({
-      next: (users) => {
-        this.users = users;
+    this.rolesService.list().subscribe({
+      next: (roles) => {
+        this.roles = roles;
       }
     });
   }
   create(){
-    this.router.navigate(['/users/create']);
+    this.router.navigate(['/roles/create']);
   }
   view(id:number){
-    this.router.navigate(['/users/view/'+id]);
+    this.router.navigate(['/roles/view/'+id]);
   }
   edit(id:number){
-    this.router.navigate(['/users/update/'+id]);
+    this.router.navigate(['/roles/update/'+id]);
   }
   delete(id:number){
-    console.log("Delete user with id:", id);
+    console.log("Delete role with id:", id);
     Swal.fire({
       title: 'Eliminar',
       text: "Está seguro que quiere eliminar el registro?",
@@ -48,7 +47,7 @@ export class ListComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.usersService.delete(id).
+        this.rolesService.delete(id).
           subscribe(data => {
             Swal.fire(
               'Eliminado!',

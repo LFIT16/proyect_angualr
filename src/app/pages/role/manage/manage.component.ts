@@ -1,27 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Role } from '../../../models/Roles/role.model';
+import { RoleService } from '../../../services/Role/role.service';
 import Swal from 'sweetalert2';
-import { User } from '../../../models/Users/user.model';
-import { UserService } from '../../../services/User/user.service';
 
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
-  styleUrls: ['./manage.component.scss']
 })
 export class ManageComponent implements OnInit {
   mode: number; // 1: view, 2: create, 3: update
-  user: User;
+  role: Role;
   theFormGroup: FormGroup; // Policía de formulario
   trySend: boolean;
   constructor(private activatedRoute: ActivatedRoute,
-    private usersService: UserService,
+    private rolesService: RoleService,
     private router: Router,
     private theFormBuilder: FormBuilder //Definir las reglas
   ) {
     this.trySend = false;
-    this.user = { id: 0, name: '', email: '', password: ''};
+    this.role = { id: 0, name: '', description: '', created_at: new Date(), updated_at: new Date() };
     this.configFormGroup()
   }
 
@@ -35,8 +34,8 @@ export class ManageComponent implements OnInit {
       this.mode = 3;
     }
     if (this.activatedRoute.snapshot.params.id) {
-      this.user.id = this.activatedRoute.snapshot.params.id
-      this.getuser(this.user.id)
+      this.role.id = this.activatedRoute.snapshot.params.id
+      this.getRole(this.role.id)
     }
 
   }
@@ -46,9 +45,8 @@ export class ManageComponent implements OnInit {
       // lista, serán las reglas
       id: [0,[]],
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      email: ['', [Validators.required, Validators.email, Validators.minLength(5), Validators.maxLength(100)]],
-      password: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(20)]],
-    })
+      description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
+        })
   }
 
 
@@ -56,27 +54,27 @@ export class ManageComponent implements OnInit {
     return this.theFormGroup.controls
   }
 
-  getuser(id: number) {
-    this.usersService.view(id).subscribe({
+  getRole(id: number) {
+    this.rolesService.view(id).subscribe({
       next: (response) => {
-        this.user = response;
+        this.role = response;
 
         this.theFormGroup.patchValue({
-          id: this.user.id,
-          name: this.user.name,
-          email: this.user.email,
-          password: this.user.password,
+          id: this.role.id,
+          name: this.role.name,
+          description: this.role.description,
+
         });
         
-        console.log('user fetched successfully:', this.user);
+        console.log('role fetched successfully:', this.role);
       },
       error: (error) => {
-        console.error('Error fetching user:', error);
+        console.error('Error fetching role:', error);
       }
     });
   }
   back() {
-    this.router.navigate(['/users/list']);
+    this.router.navigate(['/roles/list']);
   }
 
   create() {
@@ -89,18 +87,18 @@ export class ManageComponent implements OnInit {
       })
       return;
     }
-    this.usersService.create(this.theFormGroup.value).subscribe({
-      next: (user) => {
-        console.log('user created successfully:', user);
+    this.rolesService.create(this.theFormGroup.value).subscribe({
+      next: (role) => {
+        console.log('role created successfully:', role);
         Swal.fire({
           title: 'Creado!',
           text: 'Registro creado correctamente.',
           icon: 'success',
         })
-        this.router.navigate(['/users/list']);
+        this.router.navigate(['/roles/list']);
       },
       error: (error) => {
-        console.error('Error creating user:', error);
+        console.error('Error creating role:', error);
       }
     });
   }
@@ -114,18 +112,18 @@ export class ManageComponent implements OnInit {
       })
       return;
     }
-    this.usersService.update(this.theFormGroup.value).subscribe({
-      next: (user) => {
-        console.log('user updated successfully:', user);
+    this.rolesService.update(this.theFormGroup.value).subscribe({
+      next: (role) => {
+        console.log('Role updated successfully:', role);
         Swal.fire({
           title: 'Actualizado!',
           text: 'Registro actualizado correctamente.',
           icon: 'success',
         })
-        this.router.navigate(['/users/list']);
+        this.router.navigate(['/roles/list']);
       },
       error: (error) => {
-        console.error('Error updating user:', error);
+        console.error('Error updating role:', error);
       }
     });
   }
