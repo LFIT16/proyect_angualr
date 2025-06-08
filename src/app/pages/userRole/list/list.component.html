@@ -25,10 +25,10 @@
                     <td>{{ userRole.id  | slice:0:8 }}</td>
                     <td>{{ getUserName(userRole.user_id) }}</td>
                     <td>{{ getRoleName(userRole.role_id) }}</td>
-                    <td>{{ userRole.startAt | date: 'short' }}</td>
-                    <td>{{ userRole.endAt | date: 'short' }}</td>
-                    <td>{{ userRole.created_at | date: 'short' }}</td>
-                    <td>{{ userRole.updated_at | date: 'short' }}</td>
+                    <td>{{ userRole.startAt | date: 'dd/MM/yyyy hh:mm:ss a'  }}</td>
+                    <td>{{ userRole.endAt | date: 'dd/MM/yyyy hh:mm:ss a'  }}</td>
+                    <td>{{ userRole.created_at | date: 'dd/MM/yyyy' }}</td>
+                    <td>{{ userRole.updated_at | date: 'dd/MM/yyyy' }}</td>
                     <td>
                       <button class="btn btn-warning" (click)="view(userRole.id)">ver</button>
                       <button class="btn btn-primary" (click)="edit(userRole.id)">Editar</button>
