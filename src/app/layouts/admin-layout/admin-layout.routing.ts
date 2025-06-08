@@ -69,5 +69,37 @@ export const AdminLayoutRoutes: Routes = [
                 loadChildren: () => import('../../pages/user/users.module').then(m => m.UsersModule)
             }
         ]
-    }
+    },
+    {
+        path: 'roles',
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('../../pages/role/roles.module').then(m => m.RolesModule)
+            }
+        ]
+    },
+    {
+    path: 'devices',
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('../../pages/device/devices.module').then(m => m.DeviceModule)
+      }
+    ]
+  },
+
+  {
+    path: 'security-questions',
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/security-question/security-question.module')
+          .then(m => m.SecurityQuestionModule)
+      }
+    ]
+  },
+
+
 ];

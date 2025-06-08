@@ -1,0 +1,42 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Roles</h4>
+            <button class="btn btn-success" (click)="create()">Crear</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="text-primary">
+                  <td>Id</td>
+                  <td>Nombre</td>
+                  <td>Descripción</td>
+                  <td>Fecha de creación</td>
+                  <td>Fecha de actualización</td>
+                  <td>Acciones</td>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let role of roles">
+                    <td>{{ role.id }}</td>
+                    <td>{{ role.name }}</td>
+                    <td>{{ role.description }}</td>
+                    <td>{{ role.created_at | date: 'short' }}</td>
+                    <td>{{ role.updated_at | date: 'short' }}</td>
+                    <td>
+                      <button class="btn btn-warning" (click)="view(role.id)">ver</button>
+                      <button class="btn btn-primary" (click)="edit(role.id)">Editar</button>
+                      <button class="btn btn-danger" (click)="delete(role.id)">Eliminar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
