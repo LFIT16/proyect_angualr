@@ -1,8 +1,7 @@
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { UsersRolesRoutingModule } from './usersRoles-routing.module';
+import { PasswordsRoutingModule } from './passwords-routing.module';
 import { ListComponent } from './list/list.component';
 import { ManageComponent } from './manage/manage.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,9 +14,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    UsersRolesRoutingModule,
+    PasswordsRoutingModule,
     FormsModule,
     ReactiveFormsModule
   ]
 })
-export class UsersRolesModule { }
+export class PasswordsModule { }

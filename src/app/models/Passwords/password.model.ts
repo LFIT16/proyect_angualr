@@ -1,9 +1,8 @@
 import { User } from '../Users/user.model';
-import { Role } from '../Roles/role.model';
-export class UserRole {
-    id?: string;
+export class Password {
+    id?: number;
     user_id?: User[];
-    role_id?: Role[];
+    content?: string;
     startAt?: Date;
     endAt?: Date;
     created_at?: Date;

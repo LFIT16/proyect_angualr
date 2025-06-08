@@ -1,31 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { Role } from '../../../models/Roles/role.model';
 import { User } from '../../../models/Users/user.model';
-import { UserRole } from '../../../models/UsersRoles/user-role.model';
-import { RoleService } from '../../../services/Role/role.service';
 import { UserService } from '../../../services/User/user.service';
-import { UserRoleService } from '../../../services/UserRole/user-role.service';
+import { Password } from '../../../models/Passwords/password.model';
+import { PasswordService } from '../../../services/Password/password.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
 })
 export class ListComponent implements OnInit {
-  usersRoles: UserRole[] = [];
+  passwords: Password[] = [];
   users: User[] = [];
-  roles: Role[] = [];
   constructor(
-    private usersRolesService: UserRoleService,
+    private passwordsService: PasswordService,
     private userService: UserService,
-    private roleService: RoleService,
     private router: Router
   ) { }
 
   ngOnInit(): void {
     this.loadUsers();
-    this.loadRoles();
     this.list();
   }
 
@@ -36,30 +31,23 @@ export class ListComponent implements OnInit {
     });
   }
 
-  loadRoles() {
-    this.roleService.list().subscribe({
-      next: (roles) => { this.roles = roles; },
-      error: () => { this.roles = []; }
-    });
-  }
-
   list(){
-    this.usersRolesService.list().subscribe({
-      next: (usersRoles) => {
-        this.usersRoles = usersRoles;
+    this.passwordsService.list().subscribe({
+      next: (passwords) => {
+        this.passwords = passwords;
       }
     });
   }
   create(){
-    this.router.navigate(['/user-roles/create']);
+    this.router.navigate(['/passwords/create']);
   }
-  view(id:string){
-    this.router.navigate(['/user-roles/view/'+id]);
+  view(id:number){
+    this.router.navigate(['/passwords/view/'+id]);
   }
-  edit(id:string){
-    this.router.navigate(['/user-roles/update/'+id]);
+  edit(id:number){
+    this.router.navigate(['/passwords/update/'+id]);
   }
-  delete(id:string){
+  delete(id:number){
     console.log("Delete role with id:", id);
     Swal.fire({
       title: 'Eliminar',
@@ -72,7 +60,7 @@ export class ListComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.usersRolesService.delete(id).
+        this.passwordsService.delete(id).
           subscribe(data => {
             Swal.fire(
               'Eliminado!',
@@ -88,11 +76,6 @@ export class ListComponent implements OnInit {
   getUserName(userId: number): string {
     const user = this.users.find(u => u.id === userId);
     return user ? user.name : '';
-  }
-
-  getRoleName(roleId: number): string {
-    const role = this.roles.find(r => r.id === roleId);
-    return role ? role.name : '';
   }
 
 }
