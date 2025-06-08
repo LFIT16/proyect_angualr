@@ -17,7 +17,7 @@ export class DeviceService {
    }
   create(newDevice: Device): Observable<Device> {
     delete newDevice.id;
-    return this.http.post<Device>(`${environment.url_ms_security}/devices/user`, newDevice);
+    return this.http.post<Device>(`${environment.url_ms_security}/devices/user/${newDevice.user_id}`, newDevice);
   }
   update(theDevice: Device): Observable<Device> {
     return this.http.put<Device>(`${environment.url_ms_security}/devices/${theDevice.id}`, theDevice);

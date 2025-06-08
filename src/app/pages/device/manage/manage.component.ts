@@ -1,81 +1,99 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Device } from '../../../models/Device/device.model';
-import { DeviceService } from '../../../services/Device/device.service';
 import Swal from 'sweetalert2';
+import { Device } from '../../../models/Device/device.model';
+import { User } from '../../../models/Users/user.model';
+import { DeviceService } from '../../../services/Device/device.service';
+import { UserService } from '../../../services/User/User.service';
 
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
 })
 export class ManageComponent implements OnInit {
-  mode: number = 0;
+  mode: number; // 1: view, 2: create, 3: update
   device: Device;
+  users: User[] = [];
   theFormGroup: FormGroup;
-  trySend: boolean = false;
+  trySend: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private deviceService: DeviceService,
     private router: Router,
-    private theFormBuilder: FormBuilder
+    private theFormBuilder: FormBuilder,
+    private userService: UserService
   ) {
+    this.trySend = false;
     this.device = {
-      id: 0,
-      name: '',
-      ip: '',
-      operating_system: '',
-    };
-    this.initForm();
-  }
+  id: 0,
+  user_id: [],
+  ip: '',
+  name: '',
+  operating_system: '',
+  created_at: null,
+  updated_at: null
+};
 
-  private initForm(): void {
-    this.theFormGroup = this.theFormBuilder.group({
-      id: [0],
-      user_id: [0],
-      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      ip: ['', [Validators.required, Validators.pattern('^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$')]],
-      operating_system: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      created_at: [new Date()],
-      updated_at: [new Date()]
-    });
-}
+    this.configFormGroup();
+  }
 
   ngOnInit(): void {
-    this.setMode();
-    this.loadDevice();
-  }
-
-  private setMode(): void {
-    const url = this.activatedRoute.snapshot.url;
-    const path = url[url.length - 1].path;
-
-    if (path === 'create') {
-      this.mode = 2;
-    } else if (path === 'view') {
+    this.loadUsers();
+    const currentUrl = this.activatedRoute.snapshot.url.join('/');
+    if (currentUrl.includes('view')) {
       this.mode = 1;
-    } else if (path === 'update') {
+    } else if (currentUrl.includes('create')) {
+      this.mode = 2;
+    } else if (currentUrl.includes('update')) {
       this.mode = 3;
     }
+    if (this.activatedRoute.snapshot.params.id) {
+      this.device.id = this.activatedRoute.snapshot.params.id;
+      this.getDevice(this.device.id);
+    }
   }
 
-  private loadDevice(): void {
-    const id = this.activatedRoute.snapshot.params['id'];
-    if (id) {
-      this.getDevice(id);
-    }
+  configFormGroup() {
+    this.theFormGroup = this.theFormBuilder.group({
+      id: [0],
+      name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      ip: ['', [Validators.required, Validators.pattern('^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$')]],
+      operating_system: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      user_id: [[], [Validators.required]],
+      created_at: [null],
+      updated_at: [null],
+    });
   }
 
   get getTheFormGroup() {
     return this.theFormGroup.controls;
   }
 
+  loadUsers() {
+    this.userService.list().subscribe({
+      next: (users) => { this.users = users; },
+      error: (err) => {
+        this.users = [];
+        Swal.fire('Error', 'No se pudieron cargar los usuarios', 'error');
+      }
+    });
+  }
+
   getDevice(id: number) {
     this.deviceService.view(id).subscribe({
       next: (response) => {
         this.device = response;
-        this.theFormGroup.patchValue(this.device);
+        this.theFormGroup.patchValue({
+          id: this.device.id,
+          name: this.device.name,
+          ip: this.device.ip,
+          operating_system: this.device.operating_system,
+          user_id: this.device.user_id,
+          created_at: this.device.created_at,
+          updated_at: this.device.updated_at,
+        });
       },
       error: (error) => {
         console.error('Error fetching device:', error);
@@ -85,36 +103,31 @@ export class ManageComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate(['/device/list']);
+    this.router.navigate(['/devices/list']);
   }
 
   create() {
     this.trySend = true;
     if (this.theFormGroup.invalid) {
-        Swal.fire('Error', 'Por favor, complete todos los campos requeridos.', 'error');
-        return;
+      Swal.fire('Error', 'Por favor, complete todos los campos requeridos.', 'error');
+      return;
     }
 
-    const newDevice: Device = {
-        name: this.theFormGroup.get('name').value,
-        ip: this.theFormGroup.get('ip').value,
-        operating_system: this.theFormGroup.get('operating_system').value,
-        user_id: this.theFormGroup.get('user_id').value,
-        created_at: new Date(),
-        updated_at: new Date()
-    };
+    const formValue = { ...this.theFormGroup.value };
+    formValue.created_at = new Date();
+    formValue.updated_at = new Date();
 
-    this.deviceService.create(newDevice).subscribe({
-        next: () => {
-            Swal.fire('Éxito', 'Dispositivo creado correctamente.', 'success');
-            this.router.navigate(['/device/list']);
-        },
-        error: (error) => {
-            console.error('Error creating device:', error);
-            Swal.fire('Error', 'No se pudo crear el dispositivo', 'error');
-        }
+    this.deviceService.create(formValue).subscribe({
+      next: () => {
+        Swal.fire('Creado', 'Dispositivo creado correctamente.', 'success');
+        this.router.navigate(['/devices/list']);
+      },
+      error: (error) => {
+        console.error('Error creando dispositivo:', error);
+        Swal.fire('Error', 'No se pudo crear el dispositivo', 'error');
+      }
     });
-}
+  }
 
   update() {
     this.trySend = true;
@@ -123,13 +136,16 @@ export class ManageComponent implements OnInit {
       return;
     }
 
-    this.deviceService.update(this.theFormGroup.value).subscribe({
+    const formValue = { ...this.theFormGroup.value };
+    formValue.updated_at = new Date();
+
+    this.deviceService.update(formValue).subscribe({
       next: () => {
-        Swal.fire('Éxito', 'Dispositivo actualizado correctamente.', 'success');
-        this.router.navigate(['/device/list']);
+        Swal.fire('Actualizado', 'Dispositivo actualizado correctamente.', 'success');
+        this.router.navigate(['/devices/list']);
       },
       error: (error) => {
-        console.error('Error updating device:', error);
+        console.error('Error actualizando dispositivo:', error);
         Swal.fire('Error', 'No se pudo actualizar el dispositivo', 'error');
       }
     });

@@ -39,15 +39,15 @@ export class ListComponent implements OnInit {
   }
 
   create() {
-    this.router.navigate(['/device/create']);
+    this.router.navigate(['/devices/create']);
   }
 
   view(id: number) {
-    this.router.navigate(['/device/view', id]);
+    this.router.navigate(['/devices/view', id]);
   }
 
   edit(id: number) {
-    this.router.navigate(['/device/update', id]);
+    this.router.navigate(['/devices/update', id]);
   }
 
   delete(id: number) {

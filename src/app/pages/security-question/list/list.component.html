@@ -4,7 +4,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-primary">
-            <h4 class="card-title">Dispositivos</h4>
+            <h4 class="card-title">Preguntas de Seguridad</h4>
             <button class="btn btn-success" (click)="create()">Crear</button>
           </div>
           <div class="card-body">
@@ -12,38 +12,38 @@
               <table class="table">
                 <thead class="text-primary">
                   <tr>
-                    <th>Id</th>
+                    <th>ID</th>
                     <th>Nombre</th>
-                    <th>IP</th>
-                    <th>Sistema Operativo</th>
+                    <th>Descripción</th>
                     <th>Fecha de creación</th>
                     <th>Fecha de actualización</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let device of devices">
-                    <td>{{ device.id }}</td>
-                    <td>{{ device.name }}</td>
-                    <td>{{ device.ip }}</td>
-                    <td>{{ device.operating_system }}</td>
-                    <td>{{ device.created_at | date: 'short' }}</td>
-                    <td>{{ device.updated_at | date: 'short' }}</td>
+                  <tr *ngFor="let question of securityQuestions">
+                    <td>{{ question.id }}</td>
+                    <td>{{ question.name }}</td>
+                    <td>{{ question.description }}</td>
+                    <td>{{ question.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+                    <td>{{ question.updated_at | date:'dd/MM/yyyy HH:mm' }}</td>
                     <td>
-                      <button class="btn btn-info btn-sm" (click)="view(device.id)" title="Ver">
+                      <button class="btn btn-info btn-sm" (click)="view(question)" title="Ver">
                         <i class="material-icons">visibility</i>
                       </button>
-                      <button class="btn btn-warning btn-sm ml-2" (click)="edit(device.id)" title="Editar">
+                      <button class="btn btn-warning btn-sm ml-2" (click)="edit(question)" title="Editar">
                         <i class="material-icons">edit</i>
                       </button>
-                      <button class="btn btn-danger btn-sm ml-2" (click)="delete(device.id)" title="Eliminar">
+                      <button class="btn btn-danger btn-sm ml-2" (click)="delete(question.id)" title="Eliminar">
                         <i class="material-icons">delete</i>
                       </button>
                     </td>
                   </tr>
                 </tbody>
               </table>
-              <p *ngIf="devices.length === 0">No hay dispositivos registrados.</p>
+              <p *ngIf="securityQuestions.length === 0" class="text-center">
+                No hay preguntas de seguridad registradas.
+              </p>
             </div>
           </div>
         </div>

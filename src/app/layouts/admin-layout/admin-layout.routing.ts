@@ -80,12 +80,23 @@ export const AdminLayoutRoutes: Routes = [
         ]
     },
     {
-    path: 'device',
+    path: 'devices',
     children: [
       {
         path: '',
         loadChildren: () =>
           import('../../pages/device/devices.module').then(m => m.DeviceModule)
+      }
+    ]
+  },
+
+  {
+    path: 'security-questions',
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/security-question/security-question.module')
+          .then(m => m.SecurityQuestionModule)
       }
     ]
   },
