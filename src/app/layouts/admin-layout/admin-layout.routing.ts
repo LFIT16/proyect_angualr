@@ -88,12 +88,21 @@ export const AdminLayoutRoutes: Routes = [
             }
         ]
     },
-     {
+    {
         path: 'passwords',
         children: [
             {
                 path: '',
                 loadChildren: () => import('../../pages/password/passwords.module').then(m => m.PasswordsModule)
+            }
+        ]
+    },
+    {
+        path: 'addresses',
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('../../pages/address/addresses.module').then(m => m.AddressesModule)
             }
         ]
     },

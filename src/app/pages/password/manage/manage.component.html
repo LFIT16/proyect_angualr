@@ -24,7 +24,7 @@
                             <div class="row">
                                 <div class="col-3">Usuario</div>
                                 <div class="col-9" >
-                                    <select class="form-control" formControlName="user_id"  [attr.disabled]="mode==3">
+                                    <select class="form-control" formControlName="user_id" >
                                         <option value="">Seleccione un usuario</option>
                                         <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
                                     </select>

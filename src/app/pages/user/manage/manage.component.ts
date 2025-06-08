@@ -36,7 +36,7 @@ export class ManageComponent implements OnInit {
     }
     if (this.activatedRoute.snapshot.params.id) {
       this.user.id = this.activatedRoute.snapshot.params.id
-      this.getuser(this.user.id)
+      this.getUser(this.user.id)
     }
 
   }
@@ -56,7 +56,7 @@ export class ManageComponent implements OnInit {
     return this.theFormGroup.controls
   }
 
-  getuser(id: number) {
+  getUser(id: number) {
     this.usersService.view(id).subscribe({
       next: (response) => {
         this.user = response;

@@ -11,6 +11,8 @@ import { UserService } from '../../../services/User/user.service';
 @Component({
   selector: 'app-manage',
   templateUrl: './manage.component.html',
+ 
+  
 })
 export class ManageComponent implements OnInit {
   mode: number; // 1: view, 2: create, 3: update

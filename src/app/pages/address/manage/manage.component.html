@@ -23,8 +23,8 @@
                             <br>
                             <div class="row">
                                 <div class="col-3">Usuario</div>
-                                <div class="col-9">
-                                    <select class="form-control" formControlName="user_id" >
+                                <div class="col-9" >
+                                    <select class="form-control" formControlName="user_id"  >
                                         <option value="">Seleccione un usuario</option>
                                         <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
                                     </select>
@@ -33,36 +33,55 @@
                                     </div>
                                 </div>
                             </div>
-                            <br>
+                             <br>
                             <div class="row">
-                                <div class="col-3">Rol</div>
+                                <div class="col-3">Calle</div>
                                 <div class="col-9">
-                                    <select class="form-control" formControlName="role_id" >
-                                        <option value="">Seleccione un rol</option>
-                                        <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
-                                    </select>
-                                    <div *ngIf="getTheFormGroup.role_id.errors && (getTheFormGroup.role_id.dirty || getTheFormGroup.role_id.touched || trySend)">
-                                        <strong *ngIf="getTheFormGroup.role_id.errors.required" class="msnError">Requerido</strong>
+                                    <input type="text" class="form-control" formControlName="street">
+                                    <div *ngIf="getTheFormGroup.street.errors && (getTheFormGroup.street.dirty || getTheFormGroup.street.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.street.errors.required"
+                                            class="msnError">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.street.errors.minlength"
+                                            class="msnError">Inválido</strong>
                                     </div>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-3">Fecha de inicio</div>
+                                <div class="col-3">Número</div>
                                 <div class="col-9">
-                                    <input type="datetime-local" class="form-control" formControlName="startAt" step="1">
-                                    <div *ngIf="getTheFormGroup.startAt.errors && (getTheFormGroup.startAt.dirty || getTheFormGroup.startAt.touched || trySend)">
-                                        <strong *ngIf="getTheFormGroup.startAt.errors.required" class="msnError">Requerido</strong>
+                                    <input type="text" class="form-control" formControlName="number">
+                                    <div *ngIf="getTheFormGroup.number.errors && (getTheFormGroup.number.dirty || getTheFormGroup.number.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.number.errors.required"
+                                            class="msnError">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.number.errors.minlength"
+                                            class="msnError">Inválido</strong>
                                     </div>
                                 </div>
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-3">Fecha de fin</div>
+                                <div class="col-3">Latitud</div>
                                 <div class="col-9">
-                                    <input type="datetime-local" class="form-control" formControlName="endAt" step="1">
-                                    <div *ngIf="getTheFormGroup.endAt.errors && (getTheFormGroup.endAt.dirty || getTheFormGroup.endAt.touched || trySend)">
-                                        <strong *ngIf="getTheFormGroup.endAt.errors.required" class="msnError">Requerido</strong>
+                                    <input type="number" class="form-control" formControlName="latitude">
+                                    <div *ngIf="getTheFormGroup.latitude.errors && (getTheFormGroup.latitude.dirty || getTheFormGroup.latitude.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.latitude.errors.required"
+                                            class="msnError">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.latitude.errors.minlength"
+                                            class="msnError">Inválido</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-3">Longitud</div>
+                                <div class="col-9">
+                                    <input type="number" class="form-control" formControlName="longitude">
+                                    <div *ngIf="getTheFormGroup.longitude.errors && (getTheFormGroup.longitude.dirty || getTheFormGroup.longitude.touched || trySend)">
+                                        <strong *ngIf="getTheFormGroup.longitude.errors.required"
+                                            class="msnError">Requerido</strong>
+                                        <strong *ngIf="getTheFormGroup.longitude.errors.minlength"
+                                            class="msnError">Inválido</strong>
                                     </div>
                                 </div>
                             </div>

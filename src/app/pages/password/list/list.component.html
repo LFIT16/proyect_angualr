@@ -25,10 +25,10 @@
                     <td>{{ password.id }}</td>
                     <td>{{ getUserName(password.user_id) }}</td>
                     <td>{{ password.content | slice: 0:8}}</td>
-                    <td>{{ password.startAt | date: 'short' }}</td>
-                    <td>{{ password.endAt | date: 'short' }}</td>
-                    <td>{{ password.created_at | date: 'short' }}</td>
-                    <td>{{ password.updated_at | date: 'short' }}</td>
+                    <td>{{ password.startAt | date: 'dd/MM/yyyy hh:mm:ss a' }}</td>
+                    <td>{{ password.endAt | date: 'dd/MM/yyyy hh:mm:ss a' }}</td>
+                    <td>{{ password.created_at | date: 'dd/MM/yyyy'  }}</td>
+                    <td>{{ password.updated_at | date: 'dd/MM/yyyy'  }}</td>
                     <td>
                       <button class="btn btn-warning" (click)="view(password.id)">ver</button>
                       <button class="btn btn-primary" (click)="edit(password.id)">Editar</button>
