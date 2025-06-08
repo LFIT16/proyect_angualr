@@ -45,6 +45,9 @@ export class ManageComponent implements OnInit {
     } else if (currentUrl.includes('update')) {
       this.mode = 3;
     }
+    if (this.mode === 1) {
+      this.theFormGroup.disable();
+    }
     if (this.activatedRoute.snapshot.params.id) {
       this.userRole.id = this.activatedRoute.snapshot.params.id;
       this.getUserRole(this.userRole.id); // Pasar como string
