@@ -1,42 +1,50 @@
-<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
-</div>
-<!-- Page content -->
-<div class="container-fluid mt--7">
-    <!-- Table -->
+<div class="main-content">
+  <div class="container-fluid">
     <div class="row">
-        <div class="col">
-            <div class="card shadow">
-                <div class="card-header bg-transparent">
-                    <h3 class="mb-0">Usuarios</h3>
-                    <button class="btn btn-success" (click)="create()">Crear</button>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <tr>
-                            <td>Id</td>
-                            <td>Nombre</td>
-                            <td>Correo</td>
-                            <td>Contraseña</td>
-                            <td>Fecha de creación</td>
-                            <td>Fecha de actualización</td>
-                            <td>Acciones</td>
-                        </tr>
-                        <tr *ngFor="let user of users">
-                            <td>{{user.id}}</td>
-                            <td>{{user.name}}</td>
-                            <td>{{user.email}}</td>
-                            <td>{{user.password}}</td>
-                            <td>{{user.created_at | date: 'short' }}</td>
-                            <td>{{user.updated_at | date: 'short' }}</td>
-                            <td>
-                                <button class="btn btn-warning" (click)="view(user.id)">Ver</button>
-                                <button class="btn btn-primary" (click)="edit(user.id)">Editar</button>
-                                <button class="btn btn-danger" (click)="delete(user.id)">Eliminar</button>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Passwords</h4>
+            <button class="btn btn-success" (click)="create()">Crear</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="text-primary">
+                  <td>Id</td>
+                  <td>Nombre</td>
+                  <td>Correo</td>
+                  <td>Contraseña</td>
+                  <td>Fecha de creación</td>
+                  <td>Fecha de actualización</td>
+                  <td>Acciones</td>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of users">
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.password }}</td>
+                    <td>{{ user.created_at | date : "short" }}</td>
+                    <td>{{ user.updated_at | date : "short" }}</td>
+                    <td>
+                      <button class="btn btn-warning" (click)="view(user.id)">
+                        Ver
+                      </button>
+                      <button class="btn btn-primary" (click)="edit(user.id)">
+                        Editar
+                      </button>
+                      <button class="btn btn-danger" (click)="delete(user.id)">
+                        Eliminar
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
