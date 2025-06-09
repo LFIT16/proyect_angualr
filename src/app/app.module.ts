@@ -33,7 +33,7 @@ import { AuthLayoutComponent } from './layouts//auth-layout/auth-layout.componen
     MatDatepickerModule,
     MatNativeDateModule
 
-    NgbCollapseModule
+   
 
   ],
   declarations: [
