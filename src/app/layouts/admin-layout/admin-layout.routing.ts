@@ -135,5 +135,17 @@ export const AdminLayoutRoutes: Routes = [
     ]
   },
 
+  {
+    path: 'digital-signatures',
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/digitalsignature/digitalsignature.module')
+          .then(m => m.DigitalsignatureModule)
+      }
+    ]
+  },
+
+
 
 ];

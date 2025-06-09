@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { Device } from '../../../models/Device/device.model';
 import { User } from '../../../models/Users/user.model';
 import { DeviceService } from '../../../services/Device/device.service';
-import { UserService } from '../../../services/User/User.service';
+import { UserService } from '../../../services/User/user.service';
 
 @Component({
   selector: 'app-manage',

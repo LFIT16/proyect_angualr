@@ -1,0 +1,53 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Firmas Digitales</h4>
+            <button class="btn btn-success" (click)="create()">Crear</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="text-primary">
+                  <tr>
+                    <th>Id</th>
+                    <th>Usuario ID</th>
+                    <th>Firma</th>
+                    <th>Fecha de creación</th>
+                    <th>Fecha de actualización</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let signature of digitalSignatures">
+                    <td>{{ signature.id }}</td>
+                    <td>{{ signature.user_id }}</td>
+                    <td>
+                      <img [src]="signature.photo" alt="Firma digital" style="max-width: 100px;">
+                    </td>
+                    <td>{{ signature.created_at | date: 'short' }}</td>
+                    <td>{{ signature.updated_at | date: 'short' }}</td>
+                    <td>
+                      <button class="btn btn-info btn-sm" [routerLink]="['/digital-signature/view', signature.id]" title="Ver">
+                        <i class="material-icons">visibility</i>
+                      </button>
+                      <button class="btn btn-warning btn-sm ml-2" [routerLink]="['/digital-signature/edit', signature.id]" title="Editar">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button class="btn btn-danger btn-sm ml-2" (click)="deleteSignature(signature.id)" title="Eliminar">
+                        <i class="material-icons">delete</i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p *ngIf="digitalSignatures.length === 0">No hay firmas digitales registradas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
