@@ -29,11 +29,16 @@
                     <td>{{ userRole.endAt | date: 'dd/MM/yyyy hh:mm:ss a'  }}</td>
                     <td>{{ userRole.created_at | date: 'dd/MM/yyyy' }}</td>
                     <td>{{ userRole.updated_at | date: 'dd/MM/yyyy' }}</td>
-                    <td>
-                      <button class="btn btn-warning" (click)="view(userRole.id)">ver</button>
-                      <button class="btn btn-primary" (click)="edit(userRole.id)">Editar</button>
-                      <br>
-                      <button class="btn btn-danger" (click)="delete(userRole.id)">Eliminar</button>
+                     <td>
+                      <button class="btn btn-info btn-sm" (click)="view(userRole.id)" title="Ver">
+                        <i class="material-icons">visibility</i>
+                      </button>
+                      <button class="btn btn-warning btn-sm" (click)="edit(userRole.id)" title="Editar">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="delete(userRole.id)" title="Elminar">
+                        <i class="material-icons">delete</i>
+                      </button>
                     </td>
                   </tr>
                 </tbody>

@@ -31,10 +31,16 @@
                     <td>{{ address.longitude }}</td>
                     <td>{{ address.created_at | date: 'dd/MM/yyyy' }}</td>
                     <td>{{ address.updated_at | date: 'dd/MM/yyyy' }}</td>
-                    <td>
-                      <button class="btn btn-warning" (click)="view(address.id)">ver</button>
-                      <button class="btn btn-primary" (click)="edit(address.id)">Editar</button>
-                      <button class="btn btn-danger" (click)="delete(address.id)">Eliminar</button>
+                     <td>
+                      <button class="btn btn-info btn-sm" (click)="view(address.id)" title="Ver">
+                        <i class="material-icons">visibility</i>
+                      </button>
+                      <button class="btn btn-warning btn-sm" (click)="edit(address.id)" title="Editar">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="delete(address.id)" title="Elminar">
+                        <i class="material-icons">delete</i>
+                      </button>
                     </td>
                   </tr>
                 </tbody>
