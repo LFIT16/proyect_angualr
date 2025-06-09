@@ -8,7 +8,7 @@ import { RolePermission } from '../../models/RolePermission/role-permission.mode
   providedIn: 'root'
 })
 export class RolePermissionService {
-  private baseUrl = `${environment.url_ms_security}/api/role-permissions`; // Added /api/
+  private baseUrl = `${environment.url_ms_security}/role-permissions`; // <-- Solo un /api
 
   constructor(private http: HttpClient) { }
 
@@ -23,11 +23,12 @@ export class RolePermissionService {
   }
 
   // Create new role-permission
-  create(data: { role_id: number; permission_id: number }): Observable<RolePermission> {
-    return this.http.post<RolePermission>(this.baseUrl, {
-      role_id: data.role_id,
-      permission_id: data.permission_id
-    });
+  create(newRolePermission: RolePermission): Observable<RolePermission> {
+    delete newRolePermission.id;
+    return this.http.post<RolePermission>(
+      `${this.baseUrl}/role/${newRolePermission.role_id}/permission/${newRolePermission.permission_id}`,
+      newRolePermission
+    );
   }
 
   // Update role-permission

@@ -20,11 +20,11 @@ interface RolePermission {
 })
 export class ManageComponent implements OnInit {
   form: FormGroup;
-  mode: number = 2;
+  mode: number = 2; // 1: detalle, 2: crear, 3: actualizar
   roles: any[] = [];
   permissions: any[] = [];
   loading: boolean = false;
-  trySend: boolean = false; // Add this line
+  trySend: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -50,11 +50,14 @@ export class ManageComponent implements OnInit {
   ngOnInit(): void {
     this.loadRoles();
     this.loadPermissions();
-    
+
     const id = this.route.snapshot.params['id'];
     if (id) {
       this.mode = this.route.snapshot.url.some(segment => segment.path === 'view') ? 1 : 3;
       this.loadRolePermission(id);
+    } else {
+      this.mode = 2;
+      this.form.enable();
     }
   }
 
@@ -84,6 +87,7 @@ export class ManageComponent implements OnInit {
           updated_at: response.updated_at
         });
         if (this.mode === 1) this.form.disable();
+        else this.form.enable();
       },
       error: () => Swal.fire('Error', 'No se pudo cargar el rol-permiso', 'error'),
       complete: () => this.loading = false
@@ -92,22 +96,20 @@ export class ManageComponent implements OnInit {
 
   onSubmit(): void {
     this.trySend = true;
-    
+
     if (this.form.invalid) {
       Swal.fire('Error', 'Por favor complete todos los campos requeridos', 'error');
       return;
     }
 
     this.loading = true;
-
-    // Get form values and ensure they are numbers
-    const role_id = Number(this.form.get('role_id').value);
-    const permission_id = Number(this.form.get('permission_id').value);
+    const role_id = Number(this.form.get('role_id')?.value);
+    const permission_id = Number(this.form.get('permission_id')?.value);
 
     if (this.mode === 2) {
-      // Create mode
+      // Crear
       this.rolePermissionService.create({ role_id, permission_id }).subscribe({
-        next: (response) => {
+        next: () => {
           Swal.fire({
             title: 'Éxito',
             text: 'Rol-permiso creado correctamente',
@@ -118,24 +120,18 @@ export class ManageComponent implements OnInit {
           });
         },
         error: (error) => {
-          console.error('Error creating role-permission:', error);
           let errorMessage = 'No se pudo crear el rol-permiso';
-          
-          // Check for specific error messages from backend
           if (error.error && error.error.error) {
             errorMessage = error.error.error;
           }
-          
           Swal.fire('Error', errorMessage, 'error');
           this.loading = false;
         },
-        complete: () => {
-          this.loading = false;
-        }
+        complete: () => this.loading = false
       });
     } else if (this.mode === 3) {
-      // Update mode
-      const id = this.form.get('id').value;
+      // Actualizar
+      const id = this.form.get('id')?.value;
       this.rolePermissionService.update({ id, role_id, permission_id }).subscribe({
         next: () => {
           Swal.fire({
@@ -148,19 +144,14 @@ export class ManageComponent implements OnInit {
           });
         },
         error: (error) => {
-          console.error('Error updating role-permission:', error);
           let errorMessage = 'No se pudo actualizar el rol-permiso';
-          
           if (error.error && error.error.error) {
             errorMessage = error.error.error;
           }
-          
           Swal.fire('Error', errorMessage, 'error');
           this.loading = false;
         },
-        complete: () => {
-          this.loading = false;
-        }
+        complete: () => this.loading = false
       });
     }
   }
