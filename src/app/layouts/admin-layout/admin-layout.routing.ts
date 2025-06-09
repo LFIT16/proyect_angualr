@@ -3,11 +3,9 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TableListComponent } from '../../pages/table-list/table-list.component';
-import { TypographyComponent } from '../../pages/typography/typography.component';
 import { IconsComponent } from '../../pages/icons/icons.component';
 import { MapsComponent } from '../../pages/maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
-import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 
  
 export const AdminLayoutRoutes: Routes = [
@@ -56,11 +54,9 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
     { path: 'user-profile',   component: UserProfileComponent },
     { path: 'table-list',     component: TableListComponent },
-    { path: 'typography',     component: TypographyComponent },
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },
     { path: 'notifications',  component: NotificationsComponent },
-    { path: 'upgrade',        component: UpgradeComponent },
     {
         path: 'users',
         children: [
@@ -76,6 +72,33 @@ export const AdminLayoutRoutes: Routes = [
             {
                 path: '',
                 loadChildren: () => import('../../pages/role/roles.module').then(m => m.RolesModule)
+            }
+        ]
+    },
+    {
+        path: 'user-roles',
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('../../pages/userRole/usersRoles.module').then(m => m.UsersRolesModule)
+            }
+        ]
+    },
+    {
+        path: 'passwords',
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('../../pages/password/passwords.module').then(m => m.PasswordsModule)
+            }
+        ]
+    },
+    {
+        path: 'addresses',
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('../../pages/address/addresses.module').then(m => m.AddressesModule)
             }
         ]
     },
@@ -100,6 +123,29 @@ export const AdminLayoutRoutes: Routes = [
       }
     ]
   },
+
+  {
+    path: 'answers',
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/answer/answer.module')
+          .then(m => m.AnswerModule)
+      }
+    ]
+  },
+
+  {
+    path: 'digital-signatures',
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/digitalsignature/digitalsignature.module')
+          .then(m => m.DigitalsignatureModule)
+      }
+    ]
+  },
+
 
 
 ];

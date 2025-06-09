@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from '../../../models/Users/user.model';
-import { UserService } from '../../../services/User/User.service';
 import Swal from 'sweetalert2';
+import { User } from '../../../models/Users/user.model';
+import { UserService } from '../../../services/User/user.service';
 
 @Component({
   selector: 'app-list',
