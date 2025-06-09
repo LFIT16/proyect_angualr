@@ -32,7 +32,8 @@ export const ROUTES: RouteInfo[] = [
       title: 'Respuestas',
       icon: 'question_answer',
       class: ''
-    }
+    },
+    { path: '/digital-signatures/list', title: 'Firmas Digitales',  icon: 'draw', class: '' },
 ];
 
 @Component({

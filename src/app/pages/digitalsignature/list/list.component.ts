@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Digitalsignature } from '../../../models/DigitalSgnature/digitalsignature.model';
 import { DigitalSignatureService } from '../../../services/DigitalSignature/digitalsignature.service';
+import { UserService } from '../../../services/User/user.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -11,24 +12,43 @@ import Swal from 'sweetalert2';
 })
 export class ListComponent implements OnInit {
   digitalSignatures: Digitalsignature[] = [];
+  users: any[] = [];
 
   constructor(
     private digitalSignatureService: DigitalSignatureService,
+    private userService: UserService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
+    this.loadUsers();
     this.loadSignatures();
+  }
+
+  loadUsers(): void {
+    this.userService.list().subscribe({
+      next: (users) => {
+        this.users = users;
+      },
+      error: (error) => console.error('Error loading users:', error)
+    });
   }
 
   loadSignatures(): void {
     this.digitalSignatureService.list().subscribe({
-      next: (data) => this.digitalSignatures = data,
+      next: (signatures) => {
+        this.digitalSignatures = signatures;
+      },
       error: (error) => {
         console.error('Error loading signatures:', error);
         this.showErrorMessage('Error al cargar las firmas digitales');
       }
     });
+  }
+
+  getUserName(userId: number): string {
+    const user = this.users.find(u => u.id === userId);
+    return user ? user.name : 'Usuario no encontrado';
   }
 
   create(): void {
@@ -86,4 +106,10 @@ export class ListComponent implements OnInit {
       text: message
     });
   }
+}
+
+// Agregar esta interfaz al inicio del archivo, después de los imports
+interface UserData {
+  name: string;
+  // otros campos si los hay
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Digitalsignature } from '../../models/DigitalSgnature/digitalsignature.model';
 
@@ -12,43 +12,58 @@ export class DigitalSignatureService {
 
   constructor(private http: HttpClient) {}
 
-  list(): Observable<Digitalsignature[]> {
-    return this.http.get<Digitalsignature[]>(`${this.baseUrl}`);
-  }
-
-  view(id: number): Observable<Digitalsignature> {
-    return this.http.get<Digitalsignature>(`${this.baseUrl}/${id}`);
-  }
-
-  create(formData: FormData): Observable<Digitalsignature> {
+  create(formData: FormData): Observable<any> {
     const user_id = formData.get('user_id');
-    // The user_id should be cast to string since FormData.get() returns string | null
-    return this.http.post<Digitalsignature>(
-      `${this.baseUrl}/user/${user_id}`, 
-      formData,
-      {
-        headers: {
-          // Remove Content-Type header to let browser set it with boundary for FormData
-          'Accept': 'application/json'
+    const photo = formData.get('photo');
+    
+    // Create a new FormData with the exact structure expected by the backend
+    const backendFormData = new FormData();
+    if (photo instanceof File) {
+      backendFormData.append('photo', photo, photo.name);
+    }
+    
+    return this.http.post<any>(`${this.baseUrl}/user/${user_id}`, backendFormData);
+  }
+
+  update(id: number, formData: FormData): Observable<any> {
+    const photo = formData.get('photo');
+    
+    // Create a new FormData with the exact structure expected by the backend
+    const backendFormData = new FormData();
+    if (photo instanceof File) {
+      backendFormData.append('photo', photo, photo.name);
+    }
+    
+    return this.http.put<any>(`${this.baseUrl}/${id}`, backendFormData);
+  }
+
+  get(id: number): Observable<Digitalsignature> {
+    return this.http.get<Digitalsignature>(`${this.baseUrl}/${id}`).pipe(
+      map(response => {
+        // Append the backend URL to the photo path
+        if (response.photo) {
+          response.photo = `${environment.url_ms_security}/${response.photo}`;
         }
-      }
+        return response;
+      })
     );
   }
 
-  update(id: number, formData: FormData): Observable<Digitalsignature> {
-    return this.http.put<Digitalsignature>(
-      `${this.baseUrl}/${id}`, 
-      formData,
-      {
-        headers: {
-          // Remove Content-Type header to let browser set it with boundary for FormData
-          'Accept': 'application/json'
-        }
-      }
+  list(): Observable<Digitalsignature[]> {
+    return this.http.get<Digitalsignature[]>(this.baseUrl).pipe(
+      map(signatures => {
+        // Append the backend URL to each photo path
+        return signatures.map(signature => {
+          if (signature.photo) {
+            signature.photo = `${environment.url_ms_security}/${signature.photo}`;
+          }
+          return signature;
+        });
+      })
     );
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+    return this.http.delete<any>(`${this.baseUrl}/${id}`);
   }
 }
