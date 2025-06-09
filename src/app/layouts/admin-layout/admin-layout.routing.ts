@@ -82,5 +82,28 @@ export const AdminLayoutRoutes: Routes = [
     ]
   },
 
+  {
+    path: 'answers',
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/answer/answer.module')
+          .then(m => m.AnswerModule)
+      }
+    ]
+  },
+
+  {
+    path: 'digital-signatures',
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/digitalsignature/digitalsignature.module')
+          .then(m => m.DigitalsignatureModule)
+      }
+    ]
+  },
+
+
 
 ];
