@@ -5,7 +5,9 @@
         <div class="card">
           <div class="card-header card-header-danger">
             <h4 class="card-title">Usuarios</h4>
-             <button class="btn btn-success" (click)="create()">Crear</button>
+             <button class="btn btn-success btn-sm" (click)="create()" title="Agregar">
+                <i class="material-icons">add</i>
+             </button>
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -29,12 +31,16 @@
                     <td>{{ password.endAt | date: 'dd/MM/yyyy hh:mm:ss a' }}</td>
                     <td>{{ password.created_at | date: 'dd/MM/yyyy'  }}</td>
                     <td>{{ password.updated_at | date: 'dd/MM/yyyy'  }}</td>
-                    <td>
-                      <button class="btn btn-warning" (click)="view(password.id)">ver</button>
-                      <button class="btn btn-primary" (click)="edit(password.id)">Editar</button>
-                      <br>
-                      <button class="btn btn-danger" (click)="delete(password.id)">Eliminar</button>
-                     
+                     <td>
+                      <button class="btn btn-info btn-sm" (click)="view(password.id)" title="Ver">
+                        <i class="material-icons">visibility</i>
+                      </button>
+                      <button class="btn btn-warning btn-sm" (click)="edit(password.id)" title="Editar">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="delete(password.id)" title="Elminar">
+                        <i class="material-icons">delete</i>
+                      </button>
                     </td>
                   </tr>
                 </tbody>

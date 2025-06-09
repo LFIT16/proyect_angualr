@@ -5,7 +5,9 @@
         <div class="card">
           <div class="card-header card-header-danger">
             <h4 class="card-title">Usuarios</h4>
-            <button class="btn btn-success" (click)="create()">Crear</button>
+             <button class="btn btn-success btn-sm" (click)="create()" title="Agregar">
+                <i class="material-icons">add</i>
+             </button>
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -28,14 +30,14 @@
                     <td>{{ user.created_at | date : "short" }}</td>
                     <td>{{ user.updated_at | date : "short" }}</td>
                     <td>
-                      <button class="btn btn-warning" (click)="view(user.id)">
-                        Ver
+                      <button class="btn btn-info btn-sm" (click)="view(user.id)" title="Ver">
+                        <i class="material-icons">visibility</i>
                       </button>
-                      <button class="btn btn-primary" (click)="edit(user.id)">
-                        Editar
+                      <button class="btn btn-warning btn-sm" (click)="edit(user.id)" title="Editar">
+                        <i class="material-icons">edit</i>
                       </button>
-                      <button class="btn btn-danger" (click)="delete(user.id)">
-                        Eliminar
+                      <button class="btn btn-danger btn-sm" (click)="delete(user.id)" title="Elminar">
+                        <i class="material-icons">delete</i>
                       </button>
                     </td>
                   </tr>

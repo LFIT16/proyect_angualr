@@ -8,7 +8,11 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AppRoutingModule } from './app.routing';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { ComponentsModule } from './components/components.module';
+import { AppComponent } from './app.component';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { AuthLayoutComponent } from './layouts//auth-layout/auth-layout.component'; // <-- IMPORTA TU COMPONENTE
 
 @NgModule({
   declarations: [
@@ -22,7 +26,16 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    HttpClientModule,
+    ComponentsModule,
+    RouterModule,
+    AppRoutingModule,
+    NgbCollapseModule
+  ],
+  declarations: [
+    AppComponent,
+    AdminLayoutComponent,
+    AuthLayoutComponent,
   ],
   providers: [
     {
