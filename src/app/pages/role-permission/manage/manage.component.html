@@ -1,0 +1,121 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col">
+            <div class="card shadow">
+                <div class="card-header bg-transparent">
+                    <h3 class="mb-0" *ngIf="mode==1">Detalle Rol-Permiso</h3>
+                    <h3 class="mb-0" *ngIf="mode==2">Crear Rol-Permiso</h3>
+                    <h3 class="mb-0" *ngIf="mode==3">Actualizar Rol-Permiso</h3>
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <!-- ID Field -->
+                        <div class="row mb-3" *ngIf="mode !== 2">
+                            <div class="col-3">ID</div>
+                            <div class="col-9">
+                                <input type="text" class="form-control" formControlName="id" readonly>
+                            </div>
+                        </div>
+
+                        <!-- Roles Table -->
+                        <div class="row mb-3">
+                            <div class="col-3 fw-bold align-self-center">Rol</div>
+                            <div class="col-9">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped table-bordered align-middle">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="text-center" style="width: 40px;"></th>
+                                                <th>Nombre</th>
+                                                <th>Descripción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let role of roles" [class.table-active]="form.get('role_id')?.value == role.id">
+                                                <td class="text-center">
+                                                    <input type="radio"
+                                                        [value]="role.id"
+                                                        formControlName="role_id"
+                                                        [disabled]="mode==1">
+                                                </td>
+                                                <td>{{ role.name }}</td>
+                                                <td>{{ role.description }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div *ngIf="form.get('role_id')?.errors?.required && (form.get('role_id')?.touched || trySend)" class="text-danger">
+                                    <small>El rol es requerido</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Permissions Table -->
+                        <div class="row mb-3">
+                            <div class="col-3 fw-bold align-self-center">Permiso</div>
+                            <div class="col-9">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped table-bordered align-middle">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th class="text-center" style="width: 40px;"></th>
+                                                <th>Método</th>
+                                                <th>Entidad/URL</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let permission of permissions" [class.table-active]="form.get('permission_id')?.value == permission.id">
+                                                <td class="text-center">
+                                                    <input type="radio"
+                                                        [value]="permission.id"
+                                                        formControlName="permission_id"
+                                                        [disabled]="mode==1">
+                                                </td>
+                                                <td>{{ permission.method }}</td>
+                                                <td>{{ permission.entity || permission.url }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div *ngIf="form.get('permission_id')?.errors?.required && (form.get('permission_id')?.touched || trySend)" class="text-danger">
+                                    <small>El permiso es requerido</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Created At Field -->
+                        <div class="row mb-3" *ngIf="mode !== 2">
+                            <div class="col-3">Creado</div>
+                            <div class="col-9">
+                                <input type="text" class="form-control" formControlName="created_at" readonly>
+                            </div>
+                        </div>
+
+                        <!-- Updated At Field -->
+                        <div class="row mb-3" *ngIf="mode !== 2">
+                            <div class="col-3">Actualizado</div>
+                            <div class="col-9">
+                                <input type="text" class="form-control" formControlName="updated_at" readonly>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="row mt-3">
+                            <div class="col-3"></div>
+                            <div class="col-9 d-flex gap-2">
+                                <button type="button" class="btn btn-secondary" (click)="back()">
+                                    Regresar
+                                </button>
+                                <button type="submit" class="btn btn-success" *ngIf="mode==2">
+                                    Crear
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

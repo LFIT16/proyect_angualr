@@ -7,6 +7,12 @@ import { IconsComponent } from '../../pages/icons/icons.component';
 import { MapsComponent } from '../../pages/maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
 
+import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
+import { ListComponent } from '../../pages/profile/list/list.component';
+import { ManageComponent } from '../../pages/profile/manage/manage.component';
+
+
+
  
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -15,6 +21,13 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },
     { path: 'notifications',  component: NotificationsComponent },
+
+    { path: 'profiles', component: ListComponent },
+    { path: 'profiles/create/:userId', component: ManageComponent },
+    { path: 'profiles/edit/:id', component: ManageComponent },
+    { path: 'upgrade',        component: UpgradeComponent },
+
+
     {
         path: 'users',
         children: [
@@ -34,6 +47,25 @@ export const AdminLayoutRoutes: Routes = [
         ]
     },
     {
+
+        path: 'permissions',
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('../../pages/permission/permissions.module').then(m => m.PermissionsModule)
+            }
+        ]
+    },
+    {
+        path: 'role-permissions',
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('../../pages/role-permission/role-permissions.module').then(m => m.RolePermissionsModule)
+            }
+        ]
+    },
+
         path: 'user-roles',
         children: [
             {
@@ -103,6 +135,7 @@ export const AdminLayoutRoutes: Routes = [
       }
     ]
   },
+
 
 
 
