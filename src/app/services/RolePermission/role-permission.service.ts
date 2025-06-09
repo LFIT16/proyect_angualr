@@ -8,30 +8,38 @@ import { RolePermission } from '../../models/RolePermission/role-permission.mode
   providedIn: 'root'
 })
 export class RolePermissionService {
-  private baseUrl = `${environment.url_ms_security}/role-permissions`;
+  private baseUrl = `${environment.url_ms_security}/api/role-permissions`; // Added /api/
 
   constructor(private http: HttpClient) { }
 
+  // Get all role-permissions
   list(): Observable<RolePermission[]> {
     return this.http.get<RolePermission[]>(this.baseUrl);
   }
 
+  // Get role-permission by ID
   view(id: string): Observable<RolePermission> {
-    return this.http.get<RolePermission>(`${this.baseUrl}/view/${id}`);
+    return this.http.get<RolePermission>(`${this.baseUrl}/${id}`);
   }
 
-  create(rolePermission: RolePermission): Observable<RolePermission> {
-    return this.http.post<RolePermission>(
-      `${this.baseUrl}/roles/${rolePermission.role_id}/permissions/${rolePermission.permission_id}`,
-      rolePermission
-    );
+  // Create new role-permission
+  create(data: { role_id: number; permission_id: number }): Observable<RolePermission> {
+    return this.http.post<RolePermission>(this.baseUrl, {
+      role_id: data.role_id,
+      permission_id: data.permission_id
+    });
   }
 
-  update(rolePermission: RolePermission): Observable<RolePermission> {
-    return this.http.put<RolePermission>(`${this.baseUrl}/roles/${rolePermission.role_id}/permissions/${rolePermission.permission_id}`, rolePermission);
+  // Update role-permission
+  update(data: { id: string; role_id: number; permission_id: number }): Observable<RolePermission> {
+    return this.http.put<RolePermission>(`${this.baseUrl}/${data.id}`, {
+      role_id: data.role_id,
+      permission_id: data.permission_id
+    });
   }
 
-  delete(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  // Delete role-permission
+  delete(id: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 }

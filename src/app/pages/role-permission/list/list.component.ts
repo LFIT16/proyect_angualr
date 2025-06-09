@@ -1,115 +1,104 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { RolePermissionService } from '../../../services/RolePermission/role-permission.service';
-import { RolePermission } from '../../../models/RolePermission/role-permission.model';
-import { Role } from '../../../models/Roles/role.model';
-import { Permission } from '../../../models/permission/permission.model';
 import { RoleService } from '../../../services/Role/role.service';
 import { PermissionService } from '../../../services/permission/permission.service';
+import { RolePermission } from '../../../models/RolePermission/role-permission.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  templateUrl: './list.component.html'
 })
 export class ListComponent implements OnInit {
   rolePermissions: RolePermission[] = [];
-  role: Role[] = [];
-  permission: Permission[] = [];
+  roles: any[] = [];
+  permissions: any[] = [];
   loading: boolean = false;
-  error: string = '';
 
   constructor(
-    private router: Router,
     private rolePermissionService: RolePermissionService,
     private roleService: RoleService,
     private permissionService: PermissionService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
+    this.loadRolePermissions();
+    this.loadRoles();
+    this.loadPermissions();
+  }
+
+  loadRolePermissions(): void {
     this.loading = true;
-    Promise.all([
-      this.loadpermissions(),
-      this.loadRoles(),
-      this.list()
-    ]).catch(error => {
-      console.error('Error loading data:', error);
-      this.error = 'Error al cargar los datos';
-    }).finally(() => {
-      this.loading = false;
+    this.rolePermissionService.list().subscribe({
+      next: (data: RolePermission[]) => {
+        this.rolePermissions = data;
+        this.loading = false;
+      },
+      error: () => {
+        Swal.fire('Error', 'No se pudieron cargar los datos', 'error');
+        this.loading = false;
+      }
     });
   }
 
-  private async loadpermissions(): Promise<void> {
-    try {
-      const permissions = await this.permissionService.list().toPromise();
-      this.permission = permissions || [];
-    } catch (error) {
-      console.error('Error loading permissions:', error);
-      this.error = 'Error al cargar los permisos';
-      throw error;
-    }
+  loadRoles(): void {
+    this.roleService.list().subscribe({
+      next: (data) => this.roles = data,
+      error: () => console.error('Error loading roles')
+    });
   }
 
-  private async loadRoles(): Promise<void> {
-    try {
-      const roles = await this.roleService.list().toPromise();
-      this.role = roles || [];
-    } catch (error) {
-      console.error('Error loading roles:', error);
-      this.error = 'Error al cargar los roles';
-      throw error;
-    }
+  loadPermissions(): void {
+    this.permissionService.list().subscribe({
+      next: (data) => this.permissions = data,
+      error: () => console.error('Error loading permissions')
+    });
   }
 
-  private async list(): Promise<void> {
-    try {
-      const permissionsRoles = await this.rolePermissionService.list().toPromise();
-      this.rolePermissions = permissionsRoles || [];
-    } catch (error) {
-      console.error('Error loading role permissions:', error);
-      this.error = 'Error al cargar los permisos de roles';
-      throw error;
-    }
-  }
-
-  create() {
-    this.router.navigate(['/role-permissions/create']);
-  }
-
-  view(id: string) {
-    this.router.navigate(['/role-permissions/view', id]);
-  }
-
-  edit(id: string) {
-    this.router.navigate(['/role-permissions/update', id]);
-  }
-
-  delete(id: string) {
-    if (confirm('¿Está seguro de eliminar este permiso de rol?')) {
-      this.loading = true;
-      this.rolePermissionService.delete(id).subscribe({
-        next: () => {
-          this.list();
-        },
-        error: (error) => {
-          console.error('Error deleting role permission:', error);
-          this.error = 'Error al eliminar el permiso de rol';
-        },
-        complete: () => {
-          this.loading = false;
-        }
-      });
-    }
+  delete(rolePermission: RolePermission): void {
+    Swal.fire({
+      title: '¿Está seguro?',
+      text: 'Esta acción no se puede deshacer',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.rolePermissionService.delete(rolePermission.id).subscribe({
+          next: () => {
+            Swal.fire('Eliminado', 'El registro ha sido eliminado', 'success');
+            this.loadRolePermissions();
+          },
+          error: () => Swal.fire('Error', 'No se pudo eliminar el registro', 'error')
+        });
+      }
+    });
   }
 
   getRoleName(roleId: number): string {
-    const role = this.role.find(r => r.id === roleId);
-    return role ? role.name : '';
+    const role = this.roles.find(r => r.id === roleId);
+    return role ? role.name : 'N/A';
   }
 
   getPermissionName(permissionId: number): string {
-    const permission = this.permission.find(p => p.id === permissionId);
-    return permission ? permission.method : '';
+    const permission = this.permissions.find(p => p.id === permissionId);
+    return permission ? `${permission.method} - ${permission.entity || permission.url}` : 'N/A';
   }
-} 
+
+  create(): void {
+    this.router.navigate(['/role-permissions/create']);
+  }
+
+  view(id: string): void {
+    this.router.navigate(['/role-permissions/view', id]);
+  }
+
+  edit(id: string): void {
+    this.router.navigate(['/role-permissions/edit', id]);
+  }
+}

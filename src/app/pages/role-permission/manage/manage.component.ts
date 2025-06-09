@@ -4,170 +4,168 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RolePermissionService } from '../../../services/RolePermission/role-permission.service';
 import { RoleService } from '../../../services/Role/role.service';
 import { PermissionService } from '../../../services/permission/permission.service';
-import { Role } from '../../../models/Roles/role.model';
-import { Permission } from '../../../models/permission/permission.model';
+import Swal from 'sweetalert2';
+
+interface RolePermission {
+  id: string;
+  role_id: number;
+  permission_id: number;
+  created_at: string;
+  updated_at: string;
+}
 
 @Component({
   selector: 'app-manage',
-  templateUrl: './manage.component.html',
-  styleUrls: ['./manage.component.scss']
+  templateUrl: './manage.component.html'
 })
 export class ManageComponent implements OnInit {
-  mode: number = 1; // 1=view, 2=create, 3=update
-  theFormGroup: FormGroup;
-  trySend: boolean = false;
-  roles: Role[] = [];
-  permissions: Permission[] = [];
+  form: FormGroup;
+  mode: number = 2;
+  roles: any[] = [];
+  permissions: any[] = [];
   loading: boolean = false;
-  error: string = '';
+  trySend: boolean = false; // Add this line
 
   constructor(
-    private activateRoute: ActivatedRoute,
-    private router: Router,
-    private theFormBuilder: FormBuilder,
+    private fb: FormBuilder,
     private rolePermissionService: RolePermissionService,
     private roleService: RoleService,
-    private permissionService: PermissionService
+    private permissionService: PermissionService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {
-    this.theFormGroup = this.theFormBuilder.group({
-      id: [''],
-      role_id: ['', [Validators.required]],
-      permission_id: ['', [Validators.required]],
-      created_at: [''],
-      updated_at: ['']
+    this.initForm();
+  }
+
+  private initForm(): void {
+    this.form = this.fb.group({
+      id: [null],
+      role_id: [null, Validators.required],
+      permission_id: [null, Validators.required],
+      created_at: [null],
+      updated_at: [null]
     });
   }
 
   ngOnInit(): void {
-    this.loading = true;
-    const currentUrl = this.activateRoute.snapshot.url.join('/');
-    if (currentUrl.includes('view')) {
-      this.mode = 1;
-    } else if (currentUrl.includes('create')) {
-      this.mode = 2;
-    } else if (currentUrl.includes('update')) {
-      this.mode = 3;
+    this.loadRoles();
+    this.loadPermissions();
+    
+    const id = this.route.snapshot.params['id'];
+    if (id) {
+      this.mode = this.route.snapshot.url.some(segment => segment.path === 'view') ? 1 : 3;
+      this.loadRolePermission(id);
     }
+  }
 
-    Promise.all([
-      this.loadRoles(),
-      this.loadPermissions()
-    ]).then(() => {
-      if (this.mode !== 2 && this.activateRoute.snapshot.params.id) {
-        const id = this.activateRoute.snapshot.params.id;
-        this.loadRolePermission(id);
-      } else {
-        this.loading = false;
-      }
-    }).catch(error => {
-      console.error('Error loading initial data:', error);
-      this.error = 'Error al cargar los datos iniciales';
-      this.loading = false;
+  loadRoles(): void {
+    this.roleService.list().subscribe({
+      next: (roles) => this.roles = roles,
+      error: () => Swal.fire('Error', 'No se pudieron cargar los roles', 'error')
     });
   }
 
-  private async loadRoles(): Promise<void> {
-    try {
-      const data = await this.roleService.list().toPromise();
-      this.roles = data || [];
-    } catch (error) {
-      console.error('Error loading roles:', error);
-      this.error = 'Error al cargar los roles';
-      throw error;
-    }
+  loadPermissions(): void {
+    this.permissionService.list().subscribe({
+      next: (permissions) => this.permissions = permissions,
+      error: () => Swal.fire('Error', 'No se pudieron cargar los permisos', 'error')
+    });
   }
 
-  private async loadPermissions(): Promise<void> {
-    try {
-      const data = await this.permissionService.list().toPromise();
-      this.permissions = data ? [...new Map(data.map(item => [item.id, item])).values()] : [];
-    } catch (error) {
-      console.error('Error loading permissions:', error);
-      this.error = 'Error al cargar los permisos';
-      throw error;
-    }
-  }
-
-  private loadRolePermission(id: string): void {
+  loadRolePermission(id: string): void {
     this.loading = true;
     this.rolePermissionService.view(id).subscribe({
-      next: (data) => {
-        if (data) {
-          this.theFormGroup.patchValue({
-            id: data.id,
-            role_id: data.role_id,
-            permission_id: data.permission_id,
-            created_at: data.created_at,
-            updated_at: data.updated_at
+      next: (response: RolePermission) => {
+        this.form.patchValue({
+          id: response.id,
+          role_id: Number(response.role_id),
+          permission_id: Number(response.permission_id),
+          created_at: response.created_at,
+          updated_at: response.updated_at
+        });
+        if (this.mode === 1) this.form.disable();
+      },
+      error: () => Swal.fire('Error', 'No se pudo cargar el rol-permiso', 'error'),
+      complete: () => this.loading = false
+    });
+  }
+
+  onSubmit(): void {
+    this.trySend = true;
+    
+    if (this.form.invalid) {
+      Swal.fire('Error', 'Por favor complete todos los campos requeridos', 'error');
+      return;
+    }
+
+    this.loading = true;
+
+    // Get form values and ensure they are numbers
+    const role_id = Number(this.form.get('role_id').value);
+    const permission_id = Number(this.form.get('permission_id').value);
+
+    if (this.mode === 2) {
+      // Create mode
+      this.rolePermissionService.create({ role_id, permission_id }).subscribe({
+        next: (response) => {
+          Swal.fire({
+            title: 'Éxito',
+            text: 'Rol-permiso creado correctamente',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+          }).then(() => {
+            this.router.navigate(['/role-permissions/list']);
           });
-          if (this.mode === 1) {
-            this.theFormGroup.disable();
+        },
+        error: (error) => {
+          console.error('Error creating role-permission:', error);
+          let errorMessage = 'No se pudo crear el rol-permiso';
+          
+          // Check for specific error messages from backend
+          if (error.error && error.error.error) {
+            errorMessage = error.error.error;
           }
-        } else {
-          this.error = 'No se encontró el permiso de rol';
+          
+          Swal.fire('Error', errorMessage, 'error');
+          this.loading = false;
+        },
+        complete: () => {
+          this.loading = false;
         }
-      },
-      error: (error) => {
-        console.error('Error loading role permission:', error);
-        this.error = 'Error al cargar el permiso de rol';
-      },
-      complete: () => {
-        this.loading = false;
-      }
-    });
-  }
-
-  get getTheFormGroup() {
-    return this.theFormGroup.controls;
-  }
-
-  create() {
-    if (this.theFormGroup.invalid) {
-      this.trySend = true;
-      return;
+      });
+    } else if (this.mode === 3) {
+      // Update mode
+      const id = this.form.get('id').value;
+      this.rolePermissionService.update({ id, role_id, permission_id }).subscribe({
+        next: () => {
+          Swal.fire({
+            title: 'Éxito',
+            text: 'Rol-permiso actualizado correctamente',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+          }).then(() => {
+            this.router.navigate(['/role-permissions/list']);
+          });
+        },
+        error: (error) => {
+          console.error('Error updating role-permission:', error);
+          let errorMessage = 'No se pudo actualizar el rol-permiso';
+          
+          if (error.error && error.error.error) {
+            errorMessage = error.error.error;
+          }
+          
+          Swal.fire('Error', errorMessage, 'error');
+          this.loading = false;
+        },
+        complete: () => {
+          this.loading = false;
+        }
+      });
     }
-
-    this.loading = true;
-
-    // Solo enviar role_id y permission_id al backend
-    const payload = {
-      role_id: this.theFormGroup.value.role_id,
-      permission_id: this.theFormGroup.value.permission_id
-    };
-
-    this.rolePermissionService.create(payload).subscribe({
-      next: () => {
-        this.router.navigate(['/role-permissions/list']);
-      },
-      error: (error) => {
-        console.error('Error creating role permission:', error);
-        this.error = 'Error al crear el permiso de rol';
-        this.loading = false;
-      }
-    });
   }
 
-  update() {
-    if (this.theFormGroup.invalid) {
-      this.trySend = true;
-      return;
-    }
-
-    this.loading = true;
-    // Puedes enviar todos los campos, el backend decidirá qué actualizar
-    this.rolePermissionService.update(this.theFormGroup.value).subscribe({
-      next: () => {
-        this.router.navigate(['/role-permissions/list']);
-      },
-      error: (error) => {
-        console.error('Error updating role permission:', error);
-        this.error = 'Error al actualizar el permiso de rol';
-        this.loading = false;
-      }
-    });
-  }
-
-  back() {
+  back(): void {
     this.router.navigate(['/role-permissions/list']);
   }
 }
