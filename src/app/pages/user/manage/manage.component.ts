@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { User } from '../../../models/Users/user.model';
-import { UserService } from '../../../services/User/User.service';
 import Swal from 'sweetalert2';
+import { User } from '../../../models/Users/user.model';
+import { UserService } from '../../../services/User/user.service';
 
 @Component({
   selector: 'app-manage',
@@ -34,9 +34,12 @@ export class ManageComponent implements OnInit {
     } else if (currentUrl.includes('update')) {
       this.mode = 3;
     }
+    if (this.mode === 1) {
+      this.theFormGroup.disable();
+    }
     if (this.activatedRoute.snapshot.params.id) {
       this.user.id = this.activatedRoute.snapshot.params.id
-      this.getuser(this.user.id)
+      this.getUser(this.user.id)
     }
 
   }
@@ -56,7 +59,7 @@ export class ManageComponent implements OnInit {
     return this.theFormGroup.controls
   }
 
-  getuser(id: number) {
+  getUser(id: number) {
     this.usersService.view(id).subscribe({
       next: (response) => {
         this.user = response;

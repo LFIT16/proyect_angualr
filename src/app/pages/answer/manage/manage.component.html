@@ -1,0 +1,72 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">
+              {{ mode === 1 ? 'Ver' : mode === 2 ? 'Crear' : 'Actualizar' }} Respuesta
+            </h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="theFormGroup">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Usuario</label>
+                    <select class="form-control" formControlName="user_id" [disabled]="mode === 1">
+                      <option value="">Seleccione un usuario</option>
+                      <option *ngFor="let user of users" [value]="user.id">
+                        {{ user.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Pregunta de Seguridad</label>
+                    <select class="form-control" formControlName="security_question_id" [disabled]="mode === 1">
+                      <option value="">Seleccione una pregunta</option>
+                      <option *ngFor="let question of securityQuestions" [value]="question.id">
+                        {{ question.name }} - {{ question.description }}
+                      </option>
+                    </select>
+                    <div *ngIf="trySend && theFormGroup.get('security_question_id').errors" class="text-danger">
+                      <small *ngIf="theFormGroup.get('security_question_id').errors?.['required']">
+                        Debe seleccionar una pregunta de seguridad
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Respuesta</label>
+                    <textarea 
+                      class="form-control" 
+                      formControlName="content" 
+                      rows="3" 
+                      [readonly]="mode === 1">
+                    </textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <button class="btn btn-primary" (click)="back()">Regresar</button>
+                  <button *ngIf="mode === 2" class="btn btn-success ml-2" (click)="create()">
+                    Crear
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

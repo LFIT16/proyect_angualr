@@ -24,8 +24,7 @@
                             <div class="row">
                                 <div class="col-3">Nombre</div>
                                 <div class="col-9">
-                                    <input type="text" class="form-control" 
-                                        [readonly]="mode==1" formControlName="name">
+                                    <input type="text" class="form-control"  formControlName="name">
                                         
                                     <div
                                         *ngIf="getTheFormGroup.name.errors && (getTheFormGroup.name.dirty || getTheFormGroup.name.touched || trySend)">
@@ -40,8 +39,7 @@
                             <div class="row">
                                 <div class="col-3">Correo</div>
                                 <div class="col-9">
-                                    <input type="email" class="form-control" 
-                                        [readonly]="mode==1" formControlName="email">
+                                    <input type="email" class="form-control" formControlName="email">
 
                                     <div *ngIf="getTheFormGroup.email.errors && (getTheFormGroup.email.dirty || getTheFormGroup.email.touched || trySend)">
                                         <strong *ngIf="getTheFormGroup.email.errors.required"
@@ -55,8 +53,7 @@
                             <div class="row">
                                 <div class="col-3">Contraseña</div>
                                 <div class="col-9">
-                                    <input type="password" class="form-control" 
-                                        [readonly]="mode==1" formControlName="password">
+                                    <input type="password" class="form-control" formControlName="password">
 
                                     <div *ngIf="getTheFormGroup.password.errors && (getTheFormGroup.password.dirty || getTheFormGroup.password.touched || trySend)">
                                         <strong *ngIf="getTheFormGroup.password.errors.required"
@@ -70,8 +67,7 @@
                             <div class="row">
                                 <div class="col-3"></div>
                                 <div class="col-9">
-                                    <button type="button" class="btn btn-primary btn-block" (click)="back()"
-                                        *ngIf="mode==1">Regresar</button>
+                                    <button type="button" class="btn btn-primary btn-block" (click)="back()">Regresar</button>
                                     <button type="button" class="btn btn-success btn-block" (click)="create()"
                                         *ngIf="mode==2">Crear</button>
                                     <button type="button" class="btn btn-warning btn-block" (click)="update()"

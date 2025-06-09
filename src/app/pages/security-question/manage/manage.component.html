@@ -1,0 +1,82 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">
+              {{ mode === 1 ? 'Ver' : mode === 2 ? 'Crear' : 'Actualizar' }} Pregunta de Seguridad
+            </h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="theFormGroup">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" 
+                           class="form-control" 
+                           formControlName="name"
+                           [readonly]="mode === 1">
+                    <div *ngIf="trySend && theFormGroup.get('name').errors" class="text-danger">
+                      <small *ngIf="theFormGroup.get('name').errors?.['required']">
+                        El nombre es requerido
+                      </small>
+                      <small *ngIf="theFormGroup.get('name').errors?.['minlength']">
+                        El nombre debe tener al menos 3 caracteres
+                      </small>
+                      <small *ngIf="theFormGroup.get('name').errors?.['maxlength']">
+                        El nombre no puede exceder los 50 caracteres
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea class="form-control" 
+                              formControlName="description"
+                              [readonly]="mode === 1"
+                              rows="3"></textarea>
+                    <div *ngIf="trySend && theFormGroup.get('description').errors" class="text-danger">
+                      <small *ngIf="theFormGroup.get('description').errors?.['required']">
+                        La descripción es requerida
+                      </small>
+                      <small *ngIf="theFormGroup.get('description').errors?.['minlength']">
+                        La descripción debe tener al menos 5 caracteres
+                      </small>
+                      <small *ngIf="theFormGroup.get('description').errors?.['maxlength']">
+                        La descripción no puede exceder los 200 caracteres
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-md-12">
+                  <button class="btn btn-primary" (click)="back()">
+                    Regresar
+                  </button>
+                  <button *ngIf="mode === 2" 
+                          class="btn btn-success ml-2" 
+                          (click)="create()">
+                    Crear
+                  </button>
+                  <button *ngIf="mode === 3" 
+                          class="btn btn-warning ml-2" 
+                          (click)="update()">
+                    Actualizar
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

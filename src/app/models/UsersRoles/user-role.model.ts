@@ -6,6 +6,6 @@ export class UserRole {
     role_id?: Role[];
     startAt?: Date;
     endAt?: Date;
-    createdAt?: Date;
-    updatedAt?: Date;
+    created_at?: Date;
+    updated_at?: Date;
 }
