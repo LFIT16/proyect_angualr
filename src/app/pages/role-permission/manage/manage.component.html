@@ -1,0 +1,77 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8"></div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header bg-transparent">
+          <h3 class="mb-0" *ngIf="mode==1">Detalle</h3>
+          <h3 class="mb-0" *ngIf="mode==2">Crear</h3>
+          <h3 class="mb-0" *ngIf="mode==3">Actualizar</h3>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center my-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="sr-only">Cargando...</span>
+            </div>
+          </div>
+
+          <div *ngIf="error" class="alert alert-danger" role="alert">
+            {{ error }}
+          </div>
+
+          <form class="form" [formGroup]="theFormGroup" *ngIf="!loading">
+            <div class="container">
+              <!-- ID solo en detalle o actualización -->
+              <div class="row mb-3" *ngIf="mode !== 2">
+                <label class="col-3 col-form-label">ID</label>
+                <div class="col-9">
+                  <input type="text" class="form-control" formControlName="id" disabled>
+                </div>
+              </div>
+
+              <!-- Rol -->
+              <div class="row mb-3">
+                <label class="col-3 col-form-label">Rol</label>
+                <div class="col-9">
+                  <select class="form-control" formControlName="role_id" [disabled]="mode==1">
+                    <option value="">Seleccione un rol</option>
+                    <option *ngFor="let role of roles" [value]="role.id">{{ role.name }}</option>
+                  </select>
+                  <div *ngIf="getTheFormGroup.role_id.errors && (getTheFormGroup.role_id.dirty || getTheFormGroup.role_id.touched || trySend)">
+                    <small class="text-danger" *ngIf="getTheFormGroup.role_id.errors.required">Requerido</small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Permiso -->
+              <div class="row mb-3">
+                <label class="col-3 col-form-label">Permiso</label>
+                <div class="col-9">
+                  <select class="form-control" formControlName="permission_id" [disabled]="mode==1">
+                    <option value="">Seleccione un permiso</option>
+                    <option *ngFor="let permission of permissions" [value]="permission.id">
+                      {{ permission.method }} - {{ permission.entity || permission.url }}
+                    </option>
+                  </select>
+                  <div *ngIf="getTheFormGroup.permission_id.errors && (getTheFormGroup.permission_id.dirty || getTheFormGroup.permission_id.touched || trySend)">
+                    <small class="text-danger" *ngIf="getTheFormGroup.permission_id.errors.required">Requerido</small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botones -->
+              <div class="row mt-4">
+                <div class="col-9 offset-3">
+                  <button type="button" class="btn btn-primary me-2" (click)="back()" *ngIf="mode==1">Regresar</button>
+                  <button type="button" class="btn btn-success me-2" (click)="create()" *ngIf="mode==2" [disabled]="loading">Crear</button>
+                  <button type="button" class="btn btn-warning" (click)="update()" *ngIf="mode==3" [disabled]="loading">Actualizar</button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

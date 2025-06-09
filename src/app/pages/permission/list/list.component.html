@@ -1,0 +1,44 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Permisos</h4>
+            <button class="btn btn-success" (click)="create()">Crear</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="text-primary">
+                  <td>Id</td>
+                  <td>URL</td>
+                  <td>Método</td>
+                  <td>Entidad</td>
+                  <td>Fecha de creación</td>
+                  <td>Fecha de actualización</td>
+                  <td>Acciones</td>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let permission of permissions">
+                    <td>{{ permission.id }}</td>
+                    <td>{{ permission.url }}</td>
+                    <td>{{ permission.method }}</td>
+                    <td>{{ permission.entity }}</td>
+                    <td>{{ permission.created_at | date: 'short' }}</td>
+                    <td>{{ permission.updated_at | date: 'short' }}</td>
+                    <td>
+                      <button class="btn btn-warning" (click)="view(permission.id)">Ver</button>
+                      <button class="btn btn-primary" (click)="edit(permission.id)">Editar</button>
+                      <button class="btn btn-danger" (click)="delete(permission.id)">Eliminar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

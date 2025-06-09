@@ -1,0 +1,48 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Permisos de Roles</h4>
+            <button class="btn btn-success" (click)="create()" [disabled]="loading">Crear</button>
+          </div>
+          <div class="card-body">
+            <div *ngIf="loading" class="text-center">
+              <div class="spinner-border text-primary" role="status">
+                <span class="sr-only">Cargando...</span>
+              </div>
+            </div>
+
+            <div *ngIf="error" class="alert alert-danger" role="alert">
+              {{ error }}
+            </div>
+
+            <div class="table-responsive" *ngIf="!loading">
+              <table class="table">
+                <thead class="text-primary">
+                  <td>Id</td>
+                  <td>Rol</td>
+                  <td>Permiso</td>
+                  <td>Acciones</td>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let rolePermission of rolePermissions">
+                    <td>{{ rolePermission.id | slice:0:8 }}</td>
+                    <td>{{ getRoleName(rolePermission.role_id) }}</td>
+                    <td>{{ getPermissionName(rolePermission.permission_id) }}</td>
+                    <td>
+                      <button class="btn btn-warning" (click)="view(rolePermission.id)" [disabled]="loading">Ver</button>
+                      <button class="btn btn-primary" (click)="edit(rolePermission.id)" [disabled]="loading">Editar</button>
+                      <button class="btn btn-danger" (click)="delete(rolePermission.id)" [disabled]="loading">Eliminar</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 
