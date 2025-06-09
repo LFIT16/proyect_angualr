@@ -7,27 +7,29 @@
                         <h4 class="card-title">{{ isEdit ? 'Editar' : 'Crear' }} Perfil</h4>
                     </div>
                     <div class="card-body">
+                        <!-- Mensaje de error -->
+                        <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
                         <form (ngSubmit)="onSubmit()">
-                            <div class="form-group">
-                                <label for="phone">Teléfono</label>
-                                <input type="text" class="form-control" [(ngModel)]="form.phone" name="phone"
-                                    required />
+                            <div class="mb-3">
+                                <label>Teléfono</label>
+                                <input type="text" class="form-control" [(ngModel)]="form.phone" name="phone" required>
+                                <div *ngIf="errorMsg && !form.phone" class="text-danger">
+                                    <small>El teléfono es obligatorio</small>
+                                </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="photo">Foto</label>
-                                <input type="file" class="form-control-file" (change)="onFileSelected($event)" />
+                            <div class="mb-3">
+                                <label>Foto</label>
+                                <input type="file" class="form-control" (change)="onFileSelected($event)">
+                                <div *ngIf="photoPreview" class="mt-2">
+                                    <img [src]="photoPreview" alt="Preview" width="80" height="80" class="rounded-circle" />
+                                </div>
                             </div>
-
-                            <div class="form-group" *ngIf="photoPreview">
-                                <label>Vista previa:</label><br />
-                                <img [src]="photoPreview" width="100" height="100" class="rounded-circle" />
-                            </div>
-
-                            <button type="submit" class="btn btn-success">
+                            <button type="submit" class="btn btn-success me-2">
                                 {{ isEdit ? 'Actualizar' : 'Crear' }}
                             </button>
-                            <button type="button" class="btn btn-secondary" routerLink="/profiles">Cancelar</button>
+                            <button type="button" class="btn btn-secondary" (click)="goBack()">
+                                Cancelar
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -35,4 +37,3 @@
         </div>
     </div>
 </div>
-  

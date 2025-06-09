@@ -102,7 +102,13 @@ export const AdminLayoutRoutes: Routes = [
             }
         ]
     },
-
-
-
+    {
+        path: 'profiles',
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('../../pages/profile/profile.module').then(m => m.ProfileModule)
+            }
+        ]
+    },
 ];

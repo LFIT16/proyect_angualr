@@ -19,6 +19,7 @@ export class ManageComponent implements OnInit {
   photoPreview?: string;
   photoFile?: File;
   baseUrl: string = `${environment.url_ms_security}/profiles`;
+  errorMsg: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -41,7 +42,7 @@ export class ManageComponent implements OnInit {
               this.photoPreview = `${this.baseUrl}/${data.photo}`;
             }
           },
-          error: (err) => console.error('Error loading profile', err)
+          error: (err) => this.errorMsg = 'Error cargando el perfil'
         });
       }
     });
@@ -58,16 +59,27 @@ export class ManageComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.errorMsg = '';
+    if (!this.form.phone) {
+      this.errorMsg = 'El teléfono es obligatorio';
+      return;
+    }
     if (this.isEdit && this.profileId) {
       this.profileService.update(this.profileId, this.form, this.photoFile || null).subscribe({
         next: () => this.router.navigate(['/profiles']),
-        error: (err) => console.error('Error updating profile', err)
+        error: (err) => this.errorMsg = 'Error actualizando el perfil'
       });
     } else if (this.userId) {
       this.profileService.create(this.userId, this.form, this.photoFile || null).subscribe({
         next: () => this.router.navigate(['/profiles']),
-        error: (err) => console.error('Error creating profile', err)
+        error: (err) => this.errorMsg = 'Error creando el perfil'
       });
+    } else {
+      this.errorMsg = 'No se encontró el usuario para el perfil';
     }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/profiles']);
   }
 }
