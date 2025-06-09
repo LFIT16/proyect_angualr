@@ -6,7 +6,9 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { AppComponent } from './app.component';
+import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
+import { AuthLayoutComponent } from './layouts//auth-layout/auth-layout.component'; // <-- IMPORTA TU COMPONENTE
 
 @NgModule({
   imports: [
@@ -17,11 +19,12 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
     ComponentsModule,
     RouterModule,
     AppRoutingModule,
+    NgbCollapseModule
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-
+    AuthLayoutComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
