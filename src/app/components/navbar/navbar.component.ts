@@ -1,7 +1,8 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { ROUTES } from '../sidebar/sidebar.component';
-import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import { Location } from '@angular/common';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { RouteTrackerService } from '../../services/route-tracker-service.service'; // Adjust the path as necessary
+import { ROUTES } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-navbar',
@@ -14,8 +15,10 @@ export class NavbarComponent implements OnInit {
       mobile_menu_visible: any = 0;
     private toggleButton: any;
     private sidebarVisible: boolean;
+    mostVisitedRoute: string = '';
+    mostVisitedTitle: string = '';
 
-    constructor(location: Location,  private element: ElementRef, private router: Router) {
+    constructor(location: Location,  private element: ElementRef, private router: Router, private routeTracker: RouteTrackerService) {
       this.location = location;
           this.sidebarVisible = false;
     }
@@ -32,6 +35,12 @@ export class NavbarComponent implements OnInit {
            this.mobile_menu_visible = 0;
          }
      });
+      this.routeTracker.mostVisitedRoute$.subscribe(route => {
+      this.mostVisitedRoute = route;
+      // Buscar el título correspondiente a la ruta más visitada
+      const found = this.listTitles.find(item => route.includes(item.path));
+      this.mostVisitedTitle = found ? found.title : route;
+    });
     }
 
     sidebarOpen() {
