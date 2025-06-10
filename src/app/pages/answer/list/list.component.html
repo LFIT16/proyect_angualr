@@ -1,0 +1,55 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Listado de Respuestas</h4>
+            <button class="btn btn-success" (click)="create()">Crear nueva respuesta</button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="text-primary">
+                  <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Pregunta de Seguridad</th>
+                    <th>Respuesta</th>
+                    <th>Fecha Creación</th>
+                    <th>Fecha Actualización</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let answer of answers">
+                    <td>{{ answer.id }}</td>
+                    <td>{{ getUserName(answer.user_id) }}</td>
+                    <td>{{ getQuestionText(answer.security_question_id) }}</td>
+                    <td>{{ answer.content }}</td>
+                    <td>{{ answer.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+                    <td>{{ answer.updated_at | date:'dd/MM/yyyy HH:mm' }}</td>
+                    <td>
+                      <button class="btn btn-info btn-sm" (click)="view(answer)" title="Ver">
+                        <i class="material-icons">visibility</i>
+                      </button>
+                      <button class="btn btn-warning btn-sm ml-2" (click)="edit(answer)" title="Editar">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button class="btn btn-danger btn-sm ml-2" (click)="delete(answer.id)" title="Eliminar">
+                        <i class="material-icons">delete</i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div *ngIf="answers.length === 0" class="text-center p-3">
+                No hay respuestas registradas
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

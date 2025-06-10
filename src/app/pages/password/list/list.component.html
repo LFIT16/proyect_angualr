@@ -1,0 +1,54 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Usuarios</h4>
+             <button class="btn btn-success btn-sm" (click)="create()" title="Agregar">
+                <i class="material-icons">add</i>
+             </button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead class="text-primary">
+                  <td>Id</td>
+                  <td>Usuario</td>
+                  <td>Contenido</td>
+                  <td>Fecha de inicio</td>
+                  <td>Fecha de fin</td>
+                  <td>Fecha de creación</td>
+                  <td>Fecha de actualización</td>
+                  <td>Acciones</td>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let password of passwords">
+                    <td>{{ password.id }}</td>
+                    <td>{{ getUserName(password.user_id) }}</td>
+                    <td>{{ password.content | slice: 0:8}}</td>
+                    <td>{{ password.startAt | date: 'dd/MM/yyyy hh:mm:ss a' }}</td>
+                    <td>{{ password.endAt | date: 'dd/MM/yyyy hh:mm:ss a' }}</td>
+                    <td>{{ password.created_at | date: 'dd/MM/yyyy'  }}</td>
+                    <td>{{ password.updated_at | date: 'dd/MM/yyyy'  }}</td>
+                     <td>
+                      <button class="btn btn-info btn-sm" (click)="view(password.id)" title="Ver">
+                        <i class="material-icons">visibility</i>
+                      </button>
+                      <button class="btn btn-warning btn-sm" (click)="edit(password.id)" title="Editar">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="delete(password.id)" title="Elminar">
+                        <i class="material-icons">delete</i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
