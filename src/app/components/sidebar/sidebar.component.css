@@ -1,0 +1,32 @@
+.sidebar-wrapper ul.nav li.nav-item a.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 10px 18px;
+  border-radius: 8px;
+  color: #757575;
+  font-size: 17px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-wrapper ul.nav li.nav-item a.nav-link.active,
+.sidebar-wrapper ul.nav li.nav-item a.nav-link:active,
+.sidebar-wrapper ul.nav li.nav-item a.nav-link:focus,
+.sidebar-wrapper ul.nav li.nav-item a.nav-link:hover {
+  background: #f44336 !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.sidebar-wrapper ul.nav li.nav-item a.nav-link i.material-icons {
+  margin-right: 16px;
+  font-size: 24px;
+  color: #757575;
+  min-width: 28px;
+  text-align: center;
+  transition: color 0.2s;
+}
+
+.sidebar-wrapper ul.nav li.nav-item a.nav-link.active i.material-icons,
+.sidebar-wrapper ul.nav li.nav-item a.nav-link:hover i.material-icons {
+  color: #fff;
+}
