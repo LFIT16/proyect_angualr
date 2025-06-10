@@ -41,9 +41,7 @@
                                     <img [src]="photoPreview" alt="Preview" width="80" height="80" class="rounded-circle" />
                                 </div>
                             </div>
-                            <button *ngIf="isReadOnly && !isView" type="button" class="btn btn-primary me-2" (click)="enableEdit()">
-                                Editar
-                            </button>
+                           
                             <button *ngIf="!isReadOnly && !isView" type="submit" class="btn btn-success me-2">
                                 {{ mode == 3 ? 'Actualizar' : 'Crear' }}
                             </button>
