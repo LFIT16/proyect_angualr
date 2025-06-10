@@ -1,6 +1,7 @@
+import { User } from '../Users/user.model';
 export class Session {
     id?: String;
-    user_id?: String;
+    user_id?: User[];
     token?: String;
     expiration?: Date;
     FACode?: String;

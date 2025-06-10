@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Session } from '../../models/Sessions/session.model';
 import { environment } from '../../../environments/environment';
+import { Session } from '../../models/Sessions/session.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +26,11 @@ export class SessionService {
   list(): Observable<Session[]> {
       return this.http.get<Session[]>(`${environment.url_ms_security}/sessions`);
     }
-    view(id: number): Observable<Session> {
+    view(id: string): Observable<Session> {
       return this.http.get<Session>(`${environment.url_ms_security}/sessions/${id}`);
     }
 
-  create(userId: number, sessionData: Partial<Session>): Observable<Session> {
+  create( userId: number, sessionData: Partial<Session>): Observable<Session> {
     const url = `${this.baseUrl}/user/${userId}`;
     
     const body = {

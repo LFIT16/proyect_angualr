@@ -121,4 +121,15 @@ export const AdminLayoutRoutes: Routes = [
             }
         ]
     },
+    {
+        path: 'session',
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('../../pages/session/sessions.module').then(m => m.SessionsModule)
+            }
+        ]
+    },
+    
+
 ];

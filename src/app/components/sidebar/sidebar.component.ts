@@ -36,6 +36,8 @@ export const ROUTES: RouteInfo[] = [
     { path: '/digital-signatures/list', title: 'Firmas Digitales',  icon: 'draw', class: '' },
     { path: '/permissions/list', title: 'Permisos', icon: 'vpn_key', class: '' },
     { path: '/role-permissions/list', title: 'Rol-Permiso', icon: 'supervisor_account', class: '' },
+    { path: '/session/list', title: 'Sesiones', icon: 'login', class: '' },
+
 ];
 
 @Component({

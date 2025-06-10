@@ -1,7 +1,23 @@
-import { Manage } from './manage.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-describe('Manage', () => {
-  it('should create an instance', () => {
-    expect(new Manage()).toBeTruthy();
+import { ManageComponent } from './manage.component';
+
+describe('ManageComponent', () => {
+  let component: ManageComponent;
+  let fixture: ComponentFixture<ManageComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ ManageComponent ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(ManageComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 });

@@ -15,22 +15,21 @@
                 <thead class="text-primary">
                   <td>Id</td>
                   <td>Usuario</td>
-                  <td>Token</td>
+                  <td>token</td>
                   <td>Expiración</td>
-                  <td>Código de autenticación de dos factores</td>
                   <td>Fecha de creación</td>
                   <td>Fecha de actualización</td>
                   <td>Acciones</td>
                 </thead>
                 <tbody>
                   <tr *ngFor="let session of sessions">
-                    <td>{{ session.id | slice:0:8 }}</td>
-                    <td>{{ getUserName(session.user_id) }}</td>
+                    <td>{{ session.id }}</td>
+                    <td>{{ getUserName(userRole.user_id) }}</td>
                     <td>{{ session.token }}</td>
-                    <td>{{ session.expiration | date: 'dd/MM/yyyy hh:mm:ss a'}}</td>
+                    <td>{{ session.expiration }}</td>
                     <td>{{ session.FACode}}</td>
-                    <td>{{ session.created_at | date: 'dd/MM/yyyy'}}</td>
-                    <td>{{ session.updated_at | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{ session.created_at | date : "short" }}</td>
+                    <td>{{ session.updated_at | date : "short" }}</td>
                     <td>
                       <button class="btn btn-info btn-sm" (click)="view(session.id)" title="Ver">
                         <i class="material-icons">visibility</i>
