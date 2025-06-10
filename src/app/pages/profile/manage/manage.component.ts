@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProfileService } from '../../../services/profile/profile.service';
 import { environment } from '../../../../environments/environment';
+import { User } from '../../../models/Users/user.model';
+import { UserService } from '../../../services/User/user.service';
 
 @Component({
   selector: 'app-manage',

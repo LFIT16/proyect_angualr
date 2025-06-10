@@ -10,6 +10,17 @@
                         <!-- Mensaje de error -->
                         <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
                         <form (ngSubmit)="onSubmit()">
+                            <div class="row">
+                                <div class="col-3">Usuario</div>
+                                <div class="col-9">
+                                    <select class="form-control" [(ngModel)]="user_id" name="user_id" required>
+                                        <option value="">Seleccione un usuario</option>
+                                        <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+                                    </select>
+                                    <div *ngIf="errorMsg && !user_id" class="text-danger">
+                                        <small>El usuario es obligatorio</small>                                </div>
+                                </div>
+                            </div>
                             <div class="mb-3">
                                 <label>Teléfono</label>
                                 <input type="text" class="form-control" [(ngModel)]="form.phone" name="phone" required>

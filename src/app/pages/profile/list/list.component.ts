@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProfileService } from '../../../services/profile/profile.service';
 import { environment } from '../../../../environments/environment';
+import { User } from '../../../models/Users/user.model';
+import { UserService } from '../../../services/User/User.service';
 
 @Component({
   selector: 'app-list',
@@ -12,14 +14,17 @@ export class ListComponent implements OnInit {
 
   profiles: any[] = [];
   baseUrl: string = environment.url_ms_security + '/profiles';
+  users:User[] = [];
 
   constructor(
     private profileService: ProfileService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
     this.loadProfiles();
+    this.loadUsers();
   }
 
   loadProfiles(): void {
@@ -32,6 +37,16 @@ export class ListComponent implements OnInit {
       }
     });
   }
+  loadUsers() {
+    this.userService.list().subscribe({
+      next: (users) => { this.users = users; },
+      error: () => { this.users = []; }
+    });
+  }
+  getUserName(userId: number): string {
+    const user = this.users.find(u => u.id === userId);
+    return user ? user.name : '';
+  }
 
   getPhotoUrl(photo: string): string {
     return photo ? `${this.baseUrl}/${photo}` : 'assets/img/default-avatar.png';

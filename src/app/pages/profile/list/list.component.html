@@ -26,7 +26,7 @@
                 <tbody>
                   <tr *ngFor="let profile of profiles">
                     <td>{{ profile.id }}</td>
-                    <td>{{ profile.user_id }}</td>
+                    <td>{{ getUserName(profile.user_id)}}</td>
                     <td>{{ profile.phone }}</td>
                     <td>
                       <img *ngIf="profile.photo" [src]="getPhotoUrl(profile.photo)" alt="Foto" width="40" height="40" class="rounded-circle border" />

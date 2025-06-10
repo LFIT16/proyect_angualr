@@ -6,8 +6,6 @@ import { TableListComponent } from '../../pages/table-list/table-list.component'
 import { IconsComponent } from '../../pages/icons/icons.component';
 import { MapsComponent } from '../../pages/maps/maps.component';
 import { NotificationsComponent } from '../../notifications/notifications.component';
-
-import { UpgradeComponent } from '../../pages/upgrade/upgrade.component';
 import { ListComponent } from '../../pages/profile/list/list.component';
 import { ManageComponent } from '../../pages/profile/manage/manage.component';
 
@@ -25,8 +23,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'profiles', component: ListComponent },
     { path: 'profiles/create/:userId', component: ManageComponent },
     { path: 'profiles/edit/:id', component: ManageComponent },
-    { path: 'upgrade',        component: UpgradeComponent },
-
 
     {
         path: 'users',
@@ -65,7 +61,7 @@ export const AdminLayoutRoutes: Routes = [
             }
         ]
     },
-
+    {
         path: 'user-roles',
         children: [
             {
