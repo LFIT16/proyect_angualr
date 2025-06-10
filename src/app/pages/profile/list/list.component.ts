@@ -58,7 +58,7 @@ export class ListComponent implements OnInit {
   }
 
   edit(profileId: number): void {
-    this.router.navigate(['/profiles/edit', profileId]);
+    this.router.navigate(['/profiles/update', profileId]);
   }
   view(id:number){
     this.router.navigate(['/profiles/view/'+id]);

@@ -44,21 +44,24 @@ export class ManageComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.profileId = params['id'] ? +params['id'] : undefined;
       this.userId = params['userId'] ? +params['userId'] : undefined;
-      this.isEdit = !!this.profileId && this.route.snapshot.routeConfig?.path?.startsWith('edit');
+      // Cambiar 'edit' por 'update' para detectar correctamente el modo edición
+      this.isEdit = !!this.profileId && this.route.snapshot.routeConfig?.path?.startsWith('update');
       this.isView = !!this.profileId && this.route.snapshot.routeConfig?.path?.startsWith('view');
-      this.isReadOnly = !!this.profileId;
       // Lógica para el modo
       if (this.isView) {
         this.mode = 1; // Detalle
+        this.isReadOnly = true;
       } else if (this.isEdit) {
         this.mode = 3; // Actualizar
+        this.isReadOnly = false;
       } else {
         this.mode = 2; // Crear
+        this.isReadOnly = false;
       }
-
+      // Configurar el formulario con el estado correcto
+      this.configFormGroup();
       // Cargar la lista de usuarios siempre al iniciar
       this.loadUsers();
-
       if ((this.isEdit || this.isView) && this.profileId) {
         this.profileService.getById(this.profileId).subscribe({
           next: (data) => {
@@ -68,6 +71,16 @@ export class ManageComponent implements OnInit {
             });
             if (data.photo) {
               this.photoPreview = `${this.baseUrl}/${data.photo}`;
+            }
+            // Habilitar/deshabilitar controles según el modo
+            if (this.isReadOnly) {
+              Object.keys(this.theFormGroup.controls).forEach(key => {
+                this.theFormGroup.get(key)?.disable();
+              });
+            } else {
+              Object.keys(this.theFormGroup.controls).forEach(key => {
+                this.theFormGroup.get(key)?.enable();
+              });
             }
           },
           error: (err) => this.errorMsg = 'Error cargando el perfil'
@@ -111,12 +124,14 @@ export class ManageComponent implements OnInit {
       return;
     }
     const formValue = this.theFormGroup.value;
-    if (this.isEdit && this.profileId) {
+    if (this.mode === 3 && this.profileId) {
+      // Actualizar
       this.profileService.update(this.profileId, formValue, this.photoFile || null).subscribe({
         next: () => this.router.navigate(['/profiles']),
         error: (err) => this.errorMsg = 'Error actualizando el perfil'
       });
-    } else if (formValue.user_id) {
+    } else if (this.mode === 2 && formValue.user_id) {
+      // Crear
       this.profileService.create(formValue.user_id, formValue, this.photoFile || null).subscribe({
         next: () => this.router.navigate(['/profiles']),
         error: (err) => this.errorMsg = 'Error creando el perfil'
@@ -126,15 +141,21 @@ export class ManageComponent implements OnInit {
     }
   }
   configFormGroup() {
-      this.theFormGroup = this.theFormBuilder.group({
-        id: [0, []],
-        user_id: [{ value: null, disabled: this.isReadOnly }, [Validators.required]],
-        phone: [{ value: '', disabled: this.isReadOnly }, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-        photo: [{ value: null, disabled: this.isReadOnly }, []],
-    })
+    this.theFormGroup = this.theFormBuilder.group({
+      id: [0, []],
+      user_id: [{ value: null, disabled: this.isReadOnly }, [Validators.required]],
+      phone: [{ value: '', disabled: this.isReadOnly }, [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      photo: [{ value: null, disabled: this.isReadOnly }, []],
+    });
   }
 
   goBack(): void {
     this.router.navigate(['/profiles/list']);
+  }
+
+  goToUpdate() {
+    if (this.profileId) {
+      this.router.navigate(['/profiles/update', this.profileId]);
+    }
   }
 }

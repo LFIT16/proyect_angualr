@@ -5,9 +5,9 @@
                 <div class="card">
                     <div class="card-header card-header-info">
                         <div class="card-header bg-transparent">
-                            <h3 class="mb-0" *ngIf="mode==1">Detalle</h3>
-                            <h3 class="mb-0" *ngIf="mode==2">Crear</h3>
-                            <h3 class="mb-0" *ngIf="mode==3">Actualizar</h3>
+                            <h3 class="mb-0">
+                                {{ mode == 1 ? 'Detalle' : (mode == 2 ? 'Crear' : 'Actualizar') }}
+                            </h3>
                         </div>
                     </div>
                     <div class="card-body">
