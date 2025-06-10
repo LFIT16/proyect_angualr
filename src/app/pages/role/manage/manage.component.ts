@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Role } from '../../../models/Roles/role.model';
 import { RoleService } from '../../../services/Role/role.service';
 import Swal from 'sweetalert2';
+import { TrackerService } from 'app/services/tracker.service';
 
 @Component({
   selector: 'app-manage',
@@ -18,10 +19,12 @@ export class ManageComponent implements OnInit {
     private rolesService: RoleService,
     private router: Router,
     private theFormBuilder: FormBuilder //Definir las reglas
+    , private trackerService: TrackerService // 👈 Inyecta el servicio
   ) {
     this.trySend = false;
     this.role = { id: 0, name: '', description: '', created_at: new Date(), updated_at: new Date() };
     this.configFormGroup()
+    this.trackerService.track('Roles - Crear');
   }
 
   ngOnInit(): void {

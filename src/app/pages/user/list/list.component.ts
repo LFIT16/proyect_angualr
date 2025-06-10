@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { User } from '../../../models/Users/user.model';
-import { UserService } from '../../../services/User/user.service';
+import { UserService } from '../../../services/User/User.service';
+import { TrackerService } from '../../../services/tracker.service'; // 👈 Importa el servicio
+
 
 @Component({
   selector: 'app-list',
@@ -11,16 +13,19 @@ import { UserService } from '../../../services/User/user.service';
 })
 export class ListComponent implements OnInit {
   users: User[] = [];
-  constructor(private usersService:UserService,
+  constructor(private UserService:UserService,
     private router:Router
+    , private trackerService: TrackerService // 👈 Inyecta el servicio
   ) { }
 
   ngOnInit(): void {
+    this.trackerService.track('Usuarios - Lista');
     this.list();
+
   }
 
   list(){
-    this.usersService.list().subscribe({
+    this.UserService.list().subscribe({
       next: (users) => {
         this.users = users;
       }
@@ -48,7 +53,7 @@ export class ListComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.usersService.delete(id).
+        this.UserService.delete(id).
           subscribe(data => {
             Swal.fire(
               'Eliminado!',

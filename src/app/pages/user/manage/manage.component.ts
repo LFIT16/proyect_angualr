@@ -3,7 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { User } from '../../../models/Users/user.model';
-import { UserService } from '../../../services/User/user.service';
+import { UserService } from '../../../services/User/User.service';
+import { TrackerService } from '../../../services/tracker.service';
+
+
 
 @Component({
   selector: 'app-manage',
@@ -19,6 +22,7 @@ export class ManageComponent implements OnInit {
     private usersService: UserService,
     private router: Router,
     private theFormBuilder: FormBuilder //Definir las reglas
+  , private trackerService: TrackerService // 👈 Inyecta el servicio
   ) {
     this.trySend = false;
     this.user = { id: 0, name: '', email: '', password: ''};
@@ -41,6 +45,7 @@ export class ManageComponent implements OnInit {
       this.user.id = this.activatedRoute.snapshot.params.id
       this.getUser(this.user.id)
     }
+    this.trackerService.track(currentUrl);
 
   }
   configFormGroup() {

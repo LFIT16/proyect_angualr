@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PermissionService } from '../../../services/permission/permission.service';
 import { Permission } from '../../../models/permission/permission.model';
+import { TrackerService } from 'app/services/tracker.service';
 
 @Component({
   selector: 'app-manage',
@@ -20,6 +21,7 @@ export class ManageComponent implements OnInit {
     private router: Router,
     private theFormBuilder: FormBuilder,
     private permissionService: PermissionService
+    , private trackerService: TrackerService
   ) {
     this.theFormGroup = this.theFormBuilder.group({
       id: [0, []],
@@ -50,6 +52,7 @@ export class ManageComponent implements OnInit {
         }
       );
     }
+    this.trackerService.track(this.router.url);
   }
 
   get getTheFormGroup() {

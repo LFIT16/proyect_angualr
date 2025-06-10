@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Role } from '../../../models/Roles/role.model';
 import { RoleService } from '../../../services/Role/role.service';
 import Swal from 'sweetalert2';
+import { TrackerService } from '../../../services/tracker.service'; // 👈 Importa el servicio
 
 @Component({
   selector: 'app-list',
@@ -12,10 +13,12 @@ export class ListComponent implements OnInit {
   roles: Role[] = [];
   constructor(private rolesService:RoleService,
     private router:Router
+    , private trackerService: TrackerService // 👈 Inyecta el servicio
   ) { }
 
   ngOnInit(): void {
     this.list();
+    this.trackerService.track('Roles - Lista');
   }
 
   list(){

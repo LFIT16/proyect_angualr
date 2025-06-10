@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PermissionService } from '../../../services/permission/permission.service';
 import { Permission } from '../../../models/permission/permission.model';
+import { TrackerService } from 'app/services/tracker.service';
 
 @Component({
   selector: 'app-list',
@@ -14,10 +15,12 @@ export class ListComponent implements OnInit {
   constructor(
     private router: Router,
     private permissionService: PermissionService
+    , private trackerService: TrackerService
   ) { }
 
   ngOnInit(): void {
     this.loadPermissions();
+    this.trackerService.track(this.router.url);
   }
 
   loadPermissions() {
