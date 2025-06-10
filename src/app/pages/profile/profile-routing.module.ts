@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'list', pathMatch: 'full' },
   { path: 'list', component: ListComponent },
   { path: 'create/:userId', component: ManageComponent },
+  {path: 'view/:id', component:ManageComponent},
   { path: 'edit/:id', component: ManageComponent }
 ];
 

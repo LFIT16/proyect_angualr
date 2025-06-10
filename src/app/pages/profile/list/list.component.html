@@ -6,7 +6,6 @@
           <div class="card-header d-flex justify-content-between align-items-center bg-info text-white">
             <h4 class="mb-0">Listado de Perfiles</h4>
             <button class="btn btn-success btn-sm" (click)="create()">
-              <i class="material-icons">add</i> Crear Perfil
             </button>
           </div>
           <div class="card-body">
@@ -40,6 +39,9 @@
                       </button>
                       <button class="btn btn-danger btn-sm" (click)="delete(profile.id)">
                         <i class="material-icons">delete</i>
+                      </button>
+                      <button class="btn btn-info btn-sm" (click)="view(profile.id)">
+                        <i class="material-icons">visibility</i>
                       </button>
                     </td>
                   </tr>
