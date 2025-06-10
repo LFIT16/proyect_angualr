@@ -2,75 +2,84 @@ import { Routes } from '@angular/router';
 
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
- 
-export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard',      component: DashboardComponent },
-    {
-        path: 'users',
-        children: [
-            {
-                path: '',
-                loadChildren: () => import('../../pages/user/users.module').then(m => m.UsersModule)
-            }
-        ]
-    },
-    {
-        path: 'roles',
-        children: [
-            {
-                path: '',
-                loadChildren: () => import('../../pages/role/roles.module').then(m => m.RolesModule)
-            }
-        ]
-    },
-    {
+import { TrackingGuard } from '../../guards/guards'; // importa el guard
 
-        path: 'permissions',
-        children: [
-            {
-                path: '',
-                loadChildren: () => import('../../pages/permission/permissions.module').then(m => m.PermissionsModule)
-            }
-        ]
-    },
-    {
-        path: 'role-permissions',
-        children: [
-            {
-                path: '',
-                loadChildren: () => import('../../pages/role-permission/role-permissions.module').then(m => m.RolePermissionsModule)
-            }
-        ]
-    },
-    {
-        path: 'user-roles',
-        children: [
-            {
-                path: '',
-                loadChildren: () => import('../../pages/userRole/usersRoles.module').then(m => m.UsersRolesModule)
-            }
-        ]
-    },
-    {
-        path: 'passwords',
-        children: [
-            {
-                path: '',
-                loadChildren: () => import('../../pages/password/passwords.module').then(m => m.PasswordsModule)
-            }
-        ]
-    },
-    {
-        path: 'addresses',
-        children: [
-            {
-                path: '',
-                loadChildren: () => import('../../pages/address/addresses.module').then(m => m.AddressesModule)
-            }
-        ]
-    },
-    {
+export const AdminLayoutRoutes: Routes = [
+  { path: 'dashboard', component: DashboardComponent },
+
+  {
+    path: 'users',
+    canActivate: [TrackingGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/user/users.module').then(m => m.UsersModule)
+      }
+    ]
+  },
+  {
+    path: 'roles',
+    canActivate: [TrackingGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/role/roles.module').then(m => m.RolesModule)
+      }
+    ]
+  },
+  {
+    path: 'permissions',
+    canActivate: [TrackingGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/permission/permissions.module').then(m => m.PermissionsModule)
+      }
+    ]
+  },
+  {
+    path: 'role-permissions',
+    canActivate: [TrackingGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/role-permission/role-permissions.module').then(m => m.RolePermissionsModule)
+      }
+    ]
+  },
+  {
+    path: 'user-roles',
+    canActivate: [TrackingGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/userRole/usersRoles.module').then(m => m.UsersRolesModule)
+      }
+    ]
+  },
+  {
+    path: 'passwords',
+    canActivate: [TrackingGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/password/passwords.module').then(m => m.PasswordsModule)
+      }
+    ]
+  },
+  {
+    path: 'addresses',
+    canActivate: [TrackingGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/address/addresses.module').then(m => m.AddressesModule)
+      }
+    ]
+  },
+  {
     path: 'devices',
+    canActivate: [TrackingGuard],
     children: [
       {
         path: '',
@@ -79,9 +88,9 @@ export const AdminLayoutRoutes: Routes = [
       }
     ]
   },
-
   {
     path: 'security-questions',
+    canActivate: [TrackingGuard],
     children: [
       {
         path: '',
@@ -90,9 +99,9 @@ export const AdminLayoutRoutes: Routes = [
       }
     ]
   },
-
   {
     path: 'answers',
+    canActivate: [TrackingGuard],
     children: [
       {
         path: '',
@@ -101,9 +110,9 @@ export const AdminLayoutRoutes: Routes = [
       }
     ]
   },
-
   {
     path: 'digital-signatures',
+    canActivate: [TrackingGuard],
     children: [
       {
         path: '',
@@ -112,24 +121,24 @@ export const AdminLayoutRoutes: Routes = [
       }
     ]
   },
-    {
-        path: 'profiles',
-        children: [
-            {
-                path: '',
-                loadChildren: () => import('../../pages/profile/profile.module').then(m => m.ProfileModule)
-            }
-        ]
-    },
-    {
-        path: 'session',
-        children: [
-            {
-                path: '',
-                loadChildren: () => import('../../pages/session/sessions.module').then(m => m.SessionsModule)
-            }
-        ]
-    },
-    
-
+  {
+    path: 'profiles',
+    canActivate: [TrackingGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/profile/profile.module').then(m => m.ProfileModule)
+      }
+    ]
+  },
+  {
+    path: 'session',
+    canActivate: [TrackingGuard],
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('../../pages/session/sessions.module').then(m => m.SessionsModule)
+      }
+    ]
+  },
 ];
