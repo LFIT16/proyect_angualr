@@ -26,22 +26,23 @@ import { AuthLayoutComponent } from './layouts//auth-layout/auth-layout.componen
     ComponentsModule,
     RouterModule,
     AppRoutingModule,
-
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule
-
-   
-
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'GOOGLE_CLIENT_ID',
+      useValue: '270078730547-iv1huf4ml1p23mkbef6qv8k0pnc3q3p7.apps.googleusercontent.com'
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
