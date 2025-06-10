@@ -10,8 +10,8 @@
           <h3 class="mb-0" *ngIf="mode == 2">Crear</h3>
           <h3 class="mb-0" *ngIf="mode == 3">Actualizar</h3>
         </div>
-        <div class="row">
-          <div class="card-body col-md-6">
+        <div class="row flex-column flex-md-row">
+          <div class="card-body col-12 col-md-6">
             <form class="form" [formGroup]="theFormGroup">
               <div class="card-body container">
                 <div class="row">
@@ -211,11 +211,8 @@
               </div>
             </form>
           </div>
-          <div class="col-md-6 col-12">
-            <div
-              id="map"
-              style="height: 80%; width: 95%; border-radius: 10px"
-            ></div>
+          <div class="col-12 col-md-6 mb-4 mb-md-0 flex-column d-flex align-items-center">
+            <div id="map" style="height: 300px; width: 95%; border-radius: 10px"></div>
           </div>
         </div>
       </div>
