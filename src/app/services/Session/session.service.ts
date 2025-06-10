@@ -23,9 +23,15 @@ export class SessionService {
   getByUserId(userId: number): Observable<Session[]> {
     return this.http.get<Session[]>(`${this.baseUrl}/user/${userId}`);
   }
+  list(): Observable<Session[]> {
+      return this.http.get<Session[]>(`${environment.url_ms_security}/sessions`);
+    }
+    view(id: number): Observable<Session> {
+      return this.http.get<Session>(`${environment.url_ms_security}/sessions/${id}`);
+    }
 
   create(userId: number, sessionData: Partial<Session>): Observable<Session> {
-    const url = `${this.baseUrl}/users/${userId}`;
+    const url = `${this.baseUrl}/user/${userId}`;
     
     const body = {
       token: sessionData.token,
@@ -37,6 +43,14 @@ export class SessionService {
     return this.http.post<Session>(url, body);
   }
 
+  // create(newSession: Session): Observable<Session> {
+  //     delete newSession.id;
+  //     // Construir la URL con los IDs de usuario y rol
+  //     return this.http.post<Session>(
+  //       `${environment.url_ms_security}/sessions/user/${newSession.user_id}`,
+  //       newSession
+  //     );
+  //   }
   update(sessionId: string, data: Partial<Session>): Observable<Session> {
     return this.http.put<Session>(`${this.baseUrl}/${sessionId}`, data);
   }
@@ -54,7 +68,7 @@ export class SessionService {
   }
 
   login(sessionData: any): Observable<Session> {
-    const url = `${this.baseUrl}/login`;
+    const url = `${this.baseUrl}/sessions`;
     return this.http.post<Session>(url, {
       token: sessionData.token,
       expiration: this.formatDateForBackend(this.calculateDefaultExpiration()),
