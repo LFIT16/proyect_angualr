@@ -41,6 +41,9 @@ export class ManageComponent implements OnInit {
     } else if (currentUrl.includes('update')) {
       this.mode = 3;
     }
+    if (this.mode === 1) {
+      this.theFormGroup.disable();
+    }
     if (this.activatedRoute.snapshot.params.id) {
       this.sessions.id = this.activatedRoute.snapshot.params.id;
       this.getSessions(this.sessions.id.toString()); // Asegura que sea string
@@ -67,8 +70,8 @@ export class ManageComponent implements OnInit {
       token: ['', [Validators.required]],
       expiration: [null, [Validators.required]],
       FACode: ['', [Validators.required]],
-      startAt: [null, [Validators.required]],
-      endAt: [null, [Validators.required]],
+      created_at: [null, [Validators.required]],
+      updated_at: [null, [Validators.required]],
     })
   }
 
@@ -86,6 +89,10 @@ export class ManageComponent implements OnInit {
           user_id: this.sessions.user_id,
           token: this.sessions.token,
           expiration: this.sessions.expiration ? this.formatForInput(this.sessions.expiration) : '',
+          FACode: this.sessions.FACode,
+          created_at: this.sessions.created_at ? this.formatForInput(this.sessions.created_at) : '',
+          updated_at: this.sessions.updated_at ? this.formatForInput(this.sessions.updated_at) : '',
+            
         });
         console.log('sessions fetched successfully:', this.sessions);
       },
