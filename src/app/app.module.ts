@@ -31,7 +31,7 @@ import { AuthLayoutComponent } from './layouts//auth-layout/auth-layout.componen
     MatInputModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
 
    
 

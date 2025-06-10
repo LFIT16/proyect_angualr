@@ -34,6 +34,13 @@ export const ROUTES: RouteInfo[] = [
       class: ''
     },
     { path: '/digital-signatures/list', title: 'Firmas Digitales',  icon: 'draw', class: '' },
+    { path: '/maps', title: 'Maps',  icon:'location_on', class: '' },
+    { path: '/notifications', title: 'Notifications',  icon:'notifications', class: '' },
+    // Nuevos accesos directos:
+    { path: '/profiles/list', title: 'Perfiles', icon: 'account_circle', class: '' },
+    { path: '/permissions/list', title: 'Permisos', icon: 'vpn_key', class: '' },
+    { path: '/role-permissions/list', title: 'Rol-Permiso', icon: 'supervisor_account', class: '' },
+    { path: '/upgrade', title: 'Upgrade to PRO',  icon:'unarchive', class: 'active-pro' },
 ];
 
 @Component({

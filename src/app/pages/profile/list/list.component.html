@@ -1,54 +1,60 @@
 <div class="main-content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header card-header-info">
-                        <h4 class="card-title">Perfiles</h4>
-                        <button class="btn btn-success" routerLink="/profiles/create/1">Crear</button>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead class="text-primary">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Teléfono</th>
-                                        <th>Foto</th>
-                                        <th>Usuario</th>
-                                        <th>Creado</th>
-                                        <th>Actualizado</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let profile of profiles">
-                                        <td>{{ profile.id }}</td>
-                                        <td>{{ profile.phone }}</td>
-                                        <td>
-                                            <img *ngIf="profile.photo" [src]="getPhotoUrl(profile.photo)" width="50"
-                                                height="50" class="rounded-circle" />
-                                        </td>
-                                        <td>{{ profile.user_id }}</td>
-                                        <td>{{ profile.created_at | date:'short' }}</td>
-                                        <td>{{ profile.updated_at | date:'short' }}</td>
-                                        <td>
-                                            <button class="btn btn-primary"
-                                                [routerLink]="['/profiles/edit', profile.id]">Editar</button>
-                                            <button class="btn btn-danger"
-                                                (click)="delete(profile.id)">Eliminar</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div *ngIf="profiles.length === 0" class="text-center text-muted mt-3">
-                                No hay perfiles registrados.
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card shadow mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center bg-info text-white">
+            <h4 class="mb-0">Listado de Perfiles</h4>
+            <button class="btn btn-success btn-sm" (click)="create()">
+              <i class="material-icons">add</i>
+            </button>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered align-middle mb-0">
+                <thead class="thead-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Teléfono</th>
+                    <th>Foto</th>
+                    <th>Creado</th>
+                    <th>Actualizado</th>
+                    <th class="text-center">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let profile of profiles">
+                    <td>{{ profile.id }}</td>
+                    <td>{{ getUserName(profile.user_id)}}</td>
+                    <td>{{ profile.phone }}</td>
+                    <td>
+                      <img *ngIf="profile.photo" [src]="getPhotoUrl(profile.photo)" alt="Foto" width="40" height="40" class="rounded-circle border" />
+                      <span *ngIf="!profile.photo" class="text-muted">Sin foto</span>
+                    </td>
+                    <td>{{ profile.created_at | date:'short' }}</td>
+                    <td>{{ profile.updated_at | date:'short' }}</td>
+                    <td class="text-center">
+                      <button class="btn btn-primary btn-sm me-1" (click)="edit(profile.id)">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button class="btn btn-danger btn-sm" (click)="delete(profile.id)">
+                        <i class="material-icons">delete</i>
+                      </button>
+                      <button class="btn btn-info btn-sm" (click)="view(profile.id)">
+                        <i class="material-icons">visibility</i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr *ngIf="profiles.length === 0">
+                    <td colspan="7" class="text-center text-muted">No hay perfiles registrados.</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
-  
