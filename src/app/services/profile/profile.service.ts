@@ -1,7 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,9 @@ export class ProfileService {
   // Obtener perfil por user_id
   getByUserId(userId: number): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/user/${userId}`);
+  }
+  view(id: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${id}`);
   }
 
   // Crear perfil (con imagen)

@@ -2,32 +2,9 @@ import { Routes } from '@angular/router';
 
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
-import { TableListComponent } from '../../pages/table-list/table-list.component';
-import { IconsComponent } from '../../pages/icons/icons.component';
-import { MapsComponent } from '../../pages/maps/maps.component';
-import { NotificationsComponent } from '../../notifications/notifications.component';
-
-
-import { ListComponent } from '../../pages/profile/list/list.component';
-import { ManageComponent } from '../../pages/profile/manage/manage.component';
-
-
-
  
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
-    { path: 'table-list',     component: TableListComponent },
-    { path: 'icons',          component: IconsComponent },
-    { path: 'maps',           component: MapsComponent },
-    { path: 'notifications',  component: NotificationsComponent },
-
-    { path: 'profiles', component: ListComponent },
-    { path: 'profiles/create/:userId', component: ManageComponent },
-    { path: 'profiles/edit/:id', component: ManageComponent },
-
-
-
     {
         path: 'users',
         children: [
@@ -135,8 +112,13 @@ export const AdminLayoutRoutes: Routes = [
       }
     ]
   },
-
-
-
-
+    {
+        path: 'profiles',
+        children: [
+            {
+                path: '',
+                loadChildren: () => import('../../pages/profile/profile.module').then(m => m.ProfileModule)
+            }
+        ]
+    },
 ];

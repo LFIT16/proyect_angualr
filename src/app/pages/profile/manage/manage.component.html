@@ -4,30 +4,50 @@
             <div class="col-md-8 offset-md-2">
                 <div class="card">
                     <div class="card-header card-header-info">
-                        <h4 class="card-title">{{ isEdit ? 'Editar' : 'Crear' }} Perfil</h4>
+                        <div class="card-header bg-transparent">
+                            <h3 class="mb-0">
+                                {{ mode == 1 ? 'Detalle' : (mode == 2 ? 'Crear' : 'Actualizar') }}
+                            </h3>
+                        </div>
                     </div>
                     <div class="card-body">
-                        <form (ngSubmit)="onSubmit()">
-                            <div class="form-group">
-                                <label for="phone">Teléfono</label>
-                                <input type="text" class="form-control" [(ngModel)]="form.phone" name="phone"
-                                    required />
+                        <!-- Mensaje de error -->
+                        <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+                        <form [formGroup]="theFormGroup" (ngSubmit)="onSubmit()">
+                            <div class="row">
+                                <div class="col-3">Usuario</div>
+                                <div class="col-9">
+                                    <select class="form-control" formControlName="user_id" [disabled]="isReadOnly">
+                                        <option value="">Seleccione un usuario</option>
+                                        <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+                                    </select>
+                                    <div *ngIf="getTheFormGroup.user_id.errors && (getTheFormGroup.user_id.dirty || getTheFormGroup.user_id.touched)">
+                                        <strong *ngIf="getTheFormGroup.user_id.errors.required" class="msnError">Requerido</strong>
+                                    </div>
+                                </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="photo">Foto</label>
-                                <input type="file" class="form-control-file" (change)="onFileSelected($event)" />
+                            <br>
+                            <div class="mb-3">
+                                <label>Teléfono</label>
+                                <input type="text" class="form-control" formControlName="phone" [readonly]="isReadOnly">
+                                <div *ngIf="getTheFormGroup.phone.errors && (getTheFormGroup.phone.dirty || getTheFormGroup.phone.touched)">
+                                    <small *ngIf="getTheFormGroup.phone.errors.required" class="text-danger">El teléfono es obligatorio</small>
+                                </div>
                             </div>
-
-                            <div class="form-group" *ngIf="photoPreview">
-                                <label>Vista previa:</label><br />
-                                <img [src]="photoPreview" width="100" height="100" class="rounded-circle" />
+                            <div class="mb-3">
+                                <label>Foto</label>
+                                <input type="file" class="form-control" (change)="onFileSelected($event)" [disabled]="isReadOnly">
+                                <div *ngIf="photoPreview" class="mt-2">
+                                    <img [src]="photoPreview" alt="Preview" width="80" height="80" class="rounded-circle" />
+                                </div>
                             </div>
-
-                            <button type="submit" class="btn btn-success">
-                                {{ isEdit ? 'Actualizar' : 'Crear' }}
+                           
+                            <button *ngIf="!isReadOnly && !isView" type="submit" class="btn btn-success me-2">
+                                {{ mode == 3 ? 'Actualizar' : 'Crear' }}
                             </button>
-                            <button type="button" class="btn btn-secondary" routerLink="/profiles">Cancelar</button>
+                            <button type="button" class="btn btn-secondary" (click)="goBack()">
+                                Volver
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -35,4 +55,3 @@
         </div>
     </div>
 </div>
-  
